@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>E-Voting PEMIRA HMJ</title>
+  <!-- google fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="index.css">
+  <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css"  rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2"></script>
+
+</head>
+<body class="bg-[#3480F2]">
+  <!-- Navbar -->
+  <nav class="bg-[#0A3981] border-none">
+    <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+      <a href="" class="flex items-center space-x-3 rtl:space-x-reverse">
+          <img src="/img/logo.png" class="h-8" alt="Flowbite Logo" />
+          <span class="self-center text-lg font-semibold whitespace-nowrap text-[#FAFAFA]">HMJ Bahasa Asing</span>
+      </a>
+      <button data-collapse-toggle="navbar-default" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-[#FAFAFA] rounded-lg md:hidden  focus:outline-none focus:ring-2 " aria-controls="navbar-default" aria-expanded="false">
+         <img src="/img/bar.webp" class="shadow-lg" width="50px" height="auto" alt="">
+      </button>
+      <div class="hidden w-full md:block md:w-auto" id="navbar-default">
+        <ul class="font-medium flex flex-col p-4 md:p-0 mt-4 border-none rounded-lg bg-transparent md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0">
+          <li>
+            <a href="#candidates" class="block py-2 px-3 flex items-center text-semibold  text-[#FAFAFA] rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-[#3480F2] md:p-0">
+                <img src="/img/users.webp" width="30px" height="auto" class="me-3" alt="">
+                Kandidat
+            </a>
+          </li>
+          <li>
+            <a href="#candidates" class="block py-2 px-3 flex items-center text-semibold  text-[#FAFAFA] rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-[#3480F2] md:p-0">
+                <img src="/img/note.webp" width="30px" height="auto" class="me-3" alt="">
+                Cara Memilih
+            </a>
+          </li>
+         
+        </ul>
+      </div>
+    </div>
+  </nav>
+  
+
+ <!-- Hero Section -->
+<section class="text-[#FAFAFA] h-screen flex items-center justify-center">
+    <div class="container mx-auto px-6">
+      <div class="grid gap-6 items-center md:grid-cols-2">
+        <!-- Gambar -->
+        <div class="order-1 md:order-2">
+          <img src="/img/info.webp" alt="Megaphone" class="w-52 xl:w-full lg:w-full max-w-sm mx-auto">
+        </div>
+        <!-- Teks -->
+        <div class="order-2 md:order-1 text-start md:text-left">
+          <h1 class="text-3xl font-bold mb-4">
+            Selamat Datang di E-Voting PEMIRA HMJ Bahasa Asing 2024
+          </h1>
+          <p class="text-lg md:text-xl mb-6">
+            Bersama kami, jadikan suara Anda berarti dalam membangun HMJ yang lebih inovatif dan inspiratif! Dengan e-voting yang mudah, cepat, dan aman, Anda bisa memilih kapan saja, di mana saja. Mari berkontribusi untuk masa depan HMJ yang lebih cerah—klik mulai dan berikan suara terbaik Anda sekarang! 💪
+          </p>
+          <button class="bg-white text-blue-600 px-6 py-3 rounded-lg shadow-md hover:bg-blue-700 hover:text-[#FAFAFA] transition">
+            Mulai Memilih
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+
+  <!-- Why E-Voting Section -->
+  <section id="features" class="py-16 text-[#FAFAFA]">
+    <div class="container mx-auto px-6 text-center">
+      <h2 class="text-2xl xl:text-4xl lg:text-4xl font-bold mb-8">Mengapa Harus E-Voting?</h2>
+      <div class="grid md:grid-cols-3 gap-8">
+        <div class="bg-[#0A3981] p-6 rounded-lg shadow-md">
+          <img src="/img/time.webp" alt="Fast" width="100px" height="auto" class="mx-auto mb-4">
+          <h3 class="text-xl font-semibold mb-2">Cepat dan Praktis</h3>
+          <p class="text-[#FAFAFA] font-normal">Hemat waktu dengan voting yang hanya memerlukan beberapa klik.</p>
+        </div>
+        <div class="bg-[#0A3981] p-6 rounded-lg shadow-md">
+          <img src="/img/secure.webp" alt="Secure" width="100px" height="auto" class="mx-auto mb-4">
+          <h3 class="text-xl font-semibold mb-2">Aman dan Terpercaya</h3>
+          <p class="text-[#FAFAFA] font-normal">Data Anda terlindungi, dan hasilnya dapat dipercaya.</p>
+        </div>
+        <div class="bg-[#0A3981] p-6 rounded-lg shadow-md">
+          <img src="/img/modern.webp" alt="Modern" width="100px" height="auto" class="mx-auto mb-4">
+          <h3 class="text-xl font-semibold mb-2">Efisien & Modern</h3>
+          <p class="text-[#FAFAFA] font-normal">Praktis dan modern untuk kebutuhan mahasiswa.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Candidates Section -->
+  <section class="py-16 text-[#FAFAFA]">
+    <div class="container mx-auto px-6 text-center">
+      <h2 class="text-2xl md:text-4xl font-bold mb-8">Pilih Kandidat Favoritmu</h2>
+      <p class="font-semibold loading-state">Please wait....</p>
+      <div id="candidates" class="grid md:grid-cols-2 gap-8">
+       <!-- Javascript only -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-[#0A3981] text-[#FAFAFA] py-6">
+    <div class="container mx-auto px-6 text-center">
+      <p class="text-sm">&copy; 2024 HMJ Bahasa Asing || Dev by yuii__chi</p>
+    </div>
+  </footer>
+  <script type="module" src="/InterfaceJS/main.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
+</body>
+</html>
