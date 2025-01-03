@@ -47,7 +47,7 @@ function updateCandidatesCards(candidates) {
     if (candidates) {
       Object.entries(candidates).forEach(([key, candidate]) => {
         const cardElement = document.createElement('div');
-        cardElement.className = 'bg-[#0A3981] p-6 rounded-lg shadow-md';
+        cardElement.className = 'bg-[linear-gradient(120deg,#0A3981_64%,#020C1B_100%)] p-6 rounded-lg shadow-md';
         
         cardElement.innerHTML = `
           <div class="h-62 flex justify-center rounded mb-4">
@@ -55,7 +55,7 @@ function updateCandidatesCards(candidates) {
           </div>
           <h3 class="text-xl font-semibold mb-2 text-white">${candidate.name}</h3>
           <a href="/vote/candidates.html?url=${candidate.url}" >
-            <button class="bg-white text-blue-600 px-4 py-2 rounded shadow-md hover:bg-blue-700 hover:text-[#FAFAFA] transition">
+            <button  class="bg-blue-700 text-[#FAFAFA] font-semibold  px-6 py-3 rounded-lg shadow-md hover:bg-green-700 hover:text-[#FAFAFA] transition">
               Detail
             </button>
           </a>

@@ -85,7 +85,7 @@ document.getElementById('add-candidates').addEventListener('click', () => {
     const isMobile = window.innerWidth < 768;
   
     Swal.fire({
-      title: 'Add New Candidate',
+      title: '<p class="text-lg font-semibold">Add New Candidate</p>',
       width: isMobile ? '95%' : '800px',
       customClass: {
         container: 'p-2 sm:p-4',
@@ -133,6 +133,10 @@ document.getElementById('add-candidates').addEventListener('click', () => {
       confirmButtonText: 'Submit',
       cancelButtonText: 'Cancel',
       buttonsStyling: false,
+      customClass: {
+        confirmButton: 'bg-green-500 me-3 hover:bg-green-600 text-white font-semibold px-4 sm:px-6 py-2 rounded-lg transition-colors duration-200 text-sm sm:text-base',
+        cancelButton: 'bg-red-500 hover:bg-red-600 text-white font-semibold px-4 sm:px-6 py-2 rounded-lg transition-colors duration-200 text-sm sm:text-base'
+      },
       showLoaderOnConfirm: true,
       didOpen: () => {
         ClassicEditor
@@ -296,6 +300,10 @@ window.editCandidate = function(candidateId) {
                 editor = newEditor;
                 editor.setData(candidate.description);
               });
+          },
+          customClass: {
+            confirmButton: 'bg-green-500 hover:bg-green-600 text-white font-semibold px-4 sm:px-6 py-2 rounded-lg transition-colors duration-200 text-sm sm:text-base',
+            cancelButton: 'bg-red-500 hover:bg-red-600 text-white font-semibold px-4 sm:px-6 py-2 rounded-lg transition-colors duration-200 text-sm sm:text-base'
           },
           showCancelButton: true,
           confirmButtonText: 'Update'

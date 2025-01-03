@@ -49,7 +49,7 @@
             <div class="w-1/2"></div>
             <div x-data="{ isOpen: false }" class="relative w-1/2 flex justify-end">
                 <button @click="isOpen = !isOpen" class="realtive z-10 w-12 h-12 rounded-full overflow-hidden border-4 border-gray-400 hover:border-gray-300 focus:border-gray-300 focus:outline-none">
-                    <img src="/img/logo.png">
+                    <img src="/img/logo.webp">
                 </button>
                 <button x-show="isOpen" @click="isOpen = false" class="h-full w-full fixed inset-0 cursor-default"></button>
                 <div x-show="isOpen" class="absolute w-32 bg-white rounded-lg shadow-lg py-2 mt-16">
@@ -127,7 +127,6 @@
                                     <th class="text-center py-3 px-4 uppercase font-semibold text-sm">Prodi</th>
                                     <th class="text-center py-3 px-4 uppercase font-semibold text-sm">KTM</th>
                                     <th class="text-center py-3 px-4 uppercase font-semibold text-sm">Votes</th>
-                                    <th class="text-center py-3 px-4 uppercase font-semibold text-sm">Votes candidate</th>
                                     <th class="text-center py-3 px-4 uppercase font-semibold text-sm">CTA</th>
                                 </tr>
                             </thead>
@@ -168,7 +167,30 @@
         </div>
         
     </div>
+<!-- Modal -->
+<div id="modal" class="hidden fixed z-50 inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white rounded-lg p-4 max-w-md">
+      <img id="modalImage" src="" alt="KTM Mahasiswa" class="w-full h-auto rounded-lg object-cover mb-4">
+      <button onclick="hideModal()" 
+              class="bg-red-500 hover:bg-red-600 text-white font-semibold px-4 py-2 rounded-lg">
+         Tutup
+      </button>
+    </div>
+  </div>
+  <script>
+    function showModal(imageUrl) {
+  const modal = document.getElementById('modal');
+  const modalImage = document.getElementById('modalImage');
+  modalImage.src = imageUrl;
+  modal.classList.remove('hidden');
+}
 
+function hideModal() {
+  const modal = document.getElementById('modal');
+  modal.classList.add('hidden');
+}
+
+  </script>
     <!-- AlpineJS -->
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
     <!-- Font Awesome -->
