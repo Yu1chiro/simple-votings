@@ -33,11 +33,11 @@
             </button>
         </div>
         <nav class="text-white text-base font-semibold pt-3">
-            <a href="/Dashboard/admin.html" class="flex items-center active-nav-link text-white py-4 pl-6 nav-item">
+            <a href="/Dashboard/admin.html" class="flex items-center text-white py-4 pl-6 nav-item">
                <img src="/img/home.webp" width="30px" height="auto" class="mr-3" alt="">
                 Dashboard
             </a>
-            <a href="/Dashboard/statistic.html" class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item">
+            <a href="/Dashboard/statistic.html" class="flex items-center active-nav-link text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item">
                 <img src="/img/statistik.webp" width="30px" height="auto" class="mr-3" alt="">
                 Statistik
             </a>
@@ -72,11 +72,11 @@
 
             <!-- Dropdown Nav -->
             <nav :class="isOpen ? 'flex': 'hidden'" class="flex flex-col pt-4">
-                <a href="" class="flex items-center active-nav-link text-white py-4 pl-6 nav-item">
+                <a href="/Dashboard/admin.html" class="flex items-center text-white py-4 pl-6 nav-item">
                     <img src="/img/home.webp" width="30px" height="auto" class="mr-3" alt="">
                      Dashboard
                  </a>
-                 <a href="" class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item">
+                 <a href="/Dashboard/statistic.html" class="flex active-nav-link items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item">
                      <img src="/img/statistik.webp" width="30px" height="auto" class="mr-3" alt="">
                      Statistik
                  </a>
@@ -87,29 +87,80 @@
         <div class="w-full overflow-x-hidden border-t flex flex-col">
             <main class="w-full flex-grow p-6">
                 <img src="/Dashboard/img/icon.webp" width="70px" height="auto" class="mr-3" alt="">
-                <h1 class="text-3xl text-black pb-6">Dashboard</h1>
-                <!-- LIS OF CANDIDATE -->
+                <h1 class="text-3xl text-black pb-6">Votes statistic</h1>
+                <!-- VIEWS OF STATISTC -->
                 <div class="w-full mt-3">
                     <p class="text-xl pb-3 flex items-center">
-                        <i class="fas fa-list mr-3"></i> List of candidate 
+                        <i class="fas fa-list mr-3"></i> Statistik
+                    </p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Pie Chart -->
+                        <div class="bg-white p-6 rounded-lg shadow-md">
+                            <h2 class="text-lg font-semibold mb-4">Votes distribute</h2>
+                            <div class="relative">
+                                <canvas id="votingChart"></canvas>
+                            </div>
+                        </div>
+                        <!-- Statistics Cards -->
+                        <div class="space-y-4">
+                            <div class="bg-white p-6 rounded-lg shadow-md">
+                                <h2 class="text-lg font-semibold mb-4">Voting Resume</h2>
+                                <div id="statsContainer" class="space-y-4">
+                                    <!-- Stats will be inserted here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                 <!-- LIS OF VOTES -->
+                <div class="w-full mt-3">
+                    <p class="text-xl pb-3 flex items-center">
+                        <i class="fas fa-list mr-3"></i> Data Votes
                     </p>
                     <div class="mb-5">
-                        <button type="button" id="add-candidates" class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-semibold rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Add Candidate</button>
-                        <button type="button" id="open-presensi" class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-semibold rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Open Presensi</button>
-                        <button type="button" id="delete-time" class="text-white bg-gradient-to-r from-red-500 via-red-600 to-red-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-semibold rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Stop</button>
-                        <button type="button" id="add-location" class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-semibold rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Set lokasi</button>
                     </div>
                     <div class="bg-white overflow-auto rounded-lg">
                         <table class="min-w-full bg-white">
                             <thead class="bg-gray-800 text-white">
                                 <tr>
-                                    <th class="w-1/3 text-center py-3 px-4 uppercase font-semibold text-sm">Candidate</th>
-                                    <th class="text-center py-3 px-4 uppercase font-semibold text-sm">Thumbnail</th>
-                                    <th class="text-center py-3 px-4 uppercase font-semibold text-sm">Route URL</th>
-                                    <th class="text-center py-3 px-4 uppercase font-semibold text-sm">CTA button</th>
+                                    <th class="w-1/3 text-center py-3 px-4 uppercase font-semibold text-sm">Nama</th>
+                                    <th class="text-center py-3 px-4 uppercase font-semibold text-sm">NIM</th>
+                                    <th class="text-center py-3 px-4 uppercase font-semibold text-sm">Smester</th>
+                                    <th class="text-center py-3 px-4 uppercase font-semibold text-sm">Prodi</th>
+                                    <th class="text-center py-3 px-4 uppercase font-semibold text-sm">KTM</th>
+                                    <th class="text-center py-3 px-4 uppercase font-semibold text-sm">Votes</th>
+                                    <th class="text-center py-3 px-4 uppercase font-semibold text-sm">CTA</th>
                                 </tr>
                             </thead>
-                            <tbody id="candidates-table" class="text-gray-700">
+                            <tbody id="votes-table" class="text-gray-700">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="w-full mt-3">
+                    <p class="text-xl pb-3 flex items-center">
+                        <i class="fas fa-list mr-3"></i> Presensi
+                    </p>
+                    <div class="mb-5">
+                        <button type="button" id="download" class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-semibold rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Download</button>
+                        <button type="button" id="remove-all-data" class="text-white bg-gradient-to-r from-red-500 via-red-600 to-red-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-semibold rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Reset</button>
+                    </div>
+                    <div class="bg-white overflow-auto rounded-lg">
+                        <table class="min-w-full bg-white">
+                            <thead class="bg-gray-800 text-white">
+                                <tr>
+                                    <th class="w-1/3 text-center py-3 px-4 uppercase font-semibold text-sm">Timestamp</th>
+                                    <th class="w-1/3 text-center py-3 px-4 uppercase font-semibold text-sm">Nama</th>
+                                    <th class="text-center py-3 px-4 uppercase font-semibold text-sm">NIM</th>
+                                    <th class="text-center py-3 px-4 uppercase font-semibold text-sm">Smester</th>
+                                    <th class="text-center py-3 px-4 uppercase font-semibold text-sm">Prodi</th>
+                                    <th class="text-center py-3 px-4 uppercase font-semibold text-sm">Sie</th>
+                                    <th class="text-center py-3 px-4 uppercase font-semibold text-sm">Status</th>
+                                    <th class="text-center py-3 px-4 uppercase font-semibold text-sm">Kordinat</th>
+                                    <th class="text-center py-3 px-4 uppercase font-semibold text-sm">CTA</th>
+                                </tr>
+                            </thead>
+                            <tbody id="student-table" class="text-gray-700">
                             </tbody>
                         </table>
                     </div>
@@ -232,8 +283,9 @@ function hideModal() {
     </script>
       <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script type="module" src="/Dashboard/serviceJS/pw.js"></script>
-    <script type="module" src="/Dashboard/serviceJS/db.js"></script>
-    <script type="module" src="/Dashboard/serviceJS/time.js"></script>
+    <script type="module" src="/Dashboard/serviceJS/votes-view.js"></script>
+    <script type="module" src="/Dashboard/serviceJS/statistic.js"></script>
+    <script type="module" src="/Dashboard/serviceJS/fetch.js"></script>
 
 </body>
 </html>
