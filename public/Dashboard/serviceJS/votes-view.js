@@ -24,6 +24,19 @@ async function initializeFirebase() {
     console.error('Firebase initialization failed:', error);
   }
 }
+function createPDFLink(base64Data, linkText) {
+  // Konversi base64 ke Blob
+  const byteCharacters = atob(base64Data.split(',')[1]);
+  const byteNumbers = new Array(byteCharacters.length).fill(0).map((_, i) => byteCharacters.charCodeAt(i));
+  const byteArray = new Uint8Array(byteNumbers);
+  const blob = new Blob([byteArray], { type: 'application/pdf' });
+
+  // Buat URL sementara dari Blob
+  const blobURL = URL.createObjectURL(blob);
+
+  // Kembalikan elemen tautan
+  return `<a href="${blobURL}" target="_blank" class="text-white rounded-lg bg-green-500 py-2 px-2 shadow-lg">${linkText}</a>`;
+}
 
 // Function to fetch votes and populate the table
 async function fetchVotes(database) {
@@ -42,9 +55,12 @@ async function fetchVotes(database) {
             <td class="text-center py-3 px-4">${vote.nim}</td>
             <td class="text-center py-3 px-4">${vote.semester}</td>
             <td class="text-center py-3 px-4">${vote.prodi}</td>
-            <td class="text-center py-3 px-4">
-              <img src="${vote.thumbnail}" onclick="showModal('${vote.thumbnail}')"  target="_blank" alt="${vote.thumbnail}" class="w-16 h-16 cursor-pointer rounded-lg object-cover">
-            </td>
+           <td class="text-center py-3 px-4">
+    ${vote.thumbnail.startsWith('data:application/pdf') 
+      ? createPDFLink(vote.thumbnail, 'View') 
+      : `<img src="${vote.thumbnail}" onclick="showModal('${vote.thumbnail}')" alt="Thumbnail" class="w-16 h-16 cursor-pointer rounded-lg object-cover">`
+    }
+  </td>
             <td class="text-center py-3 px-4">${vote.Namecandidate}</td>
             <td class="text-center py-3 px-4">
               <button class="bg-blue-500 mb-3 text-white px-4 py-2 rounded-lg" onclick="viewVoteDetail('${childSnapshot.key}')">Detail</button>
@@ -70,29 +86,23 @@ window.viewVoteDetail = function (voteId) {
     if (snapshot.exists()) {
       const vote = snapshot.val();
       Swal.fire({
-        title: 'Vote Detail',
+        title: vote.nama,
         html: `
-        <div class="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow-md">
   <div class="mb-4">
-    <p class="text-lg font-semibold"><strong>Nama Mahasiswa:</strong> ${vote.nama}</p>
+    <p class="text-lg font-semibold"><strong>Nama:</strong> ${vote.nama}</p>
     <p class="text-lg"><strong>NIM:</strong> ${vote.nim}</p>
     <p class="text-lg"><strong>Semester:</strong> ${vote.semester}</p>
     <p class="text-lg"><strong>Prodi:</strong> ${vote.prodi}</p>
-    <p class="text-lg"><strong>Candidate Chosen:</strong> ${vote.Namecandidate}</p>
+    <p class="text-lg mb-3"><strong>Candidate Chosen:</strong> ${vote.Namecandidate}</p>
+       <p class="font-semibold mb-5">KHS Mahasiswa:</p>
+                ${vote.thumbnail.startsWith('data:application/pdf') 
+                  ? createPDFLink(vote.thumbnail, 'View') 
+                  : `<a src="${vote.thumbnail}" class="text-white bg-green-500 py-2 px-2 shadow-lg" alt="">`
+                }
   </div>
-  <div class="grid grid-cols-2 gap-4 items-center justify-center">
-    <div class="text-center">
-      <p class="font-semibold mb-2">KTM Mahasiswa:</p>
-      <img src="${vote.thumbnail}" class="w-24 h-auto rounded-lg object-cover" alt="Thumbnail">
-    </div>
-    <div class="text-center">
-      <p class="font-semibold mb-2">Candidate Choosen :</p>
-      <img src="${vote.Thumbnail}" class="w-24 h-auto rounded-lg object-cover" alt="Candidate Thumbnail">
-    </div>
-  </div>
-</div>
 
         `,
+        confirmButtonColor: '#ef4444',
         confirmButtonText: 'Close',
       });
     }

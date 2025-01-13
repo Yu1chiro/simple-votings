@@ -45,17 +45,19 @@ async function setupEventListeners() {
     const formPresensiLate = document.getElementById('form-presensi-late');
     const addLocationButton = document.getElementById('add-location');
     const deleteCountdownButton = document.getElementById('delete-time');
+    const buttonPresensi = document.getElementById('button-presensi');
+    const buttonLate = document.getElementById('button-late');
 
     if (openPresensiButton) {
         openPresensiButton.addEventListener('click', handleOpenPresensi);
     }
 
     if (formPresensiActive) {
-        formPresensiActive.addEventListener('submit', handleActiveSubmission);
+        formPresensiActive.addEventListener('submit',);
     }
 
     if (formPresensiLate) {
-        formPresensiLate.addEventListener('submit', handleLateSubmission);
+        formPresensiLate.addEventListener('submit',);
     }
 
     if (addLocationButton) {
@@ -64,6 +66,26 @@ async function setupEventListeners() {
 
     if (deleteCountdownButton) {
         deleteCountdownButton.addEventListener('click', handleDeleteCountdown);
+    }
+    if (buttonPresensi && buttonLate) {
+        deleteCountdownButton.addEventListener('click', () => {
+            buttonPresensi.disabled = true;
+            buttonLate.disabled = true;
+
+            Swal.fire({
+                icon: 'info',
+                title: 'Tolong refresh halaman',
+                text: 'Tombol presensi dan terlambat tidak dapat digunakan setelah waktu dihapus.'
+            });
+        });
+    }
+    if (openPresensiButton) {
+        openPresensiButton.addEventListener('click', () => {
+            if (buttonPresensi && buttonLate) {
+                buttonPresensi.disabled = false;
+                buttonLate.disabled = false;
+            }
+        });
     }
 
     // Periksa status countdown saat inisialisasi

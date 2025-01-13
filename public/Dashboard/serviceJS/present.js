@@ -94,10 +94,17 @@ async function handleDeleteCountdown() {
     }
 }
 function updateCountdown(timeData) {
+    // Set initial state immediately
+    const formPresensiActive = document.getElementById('form-presensi-active');
+    if (formPresensiActive) {
+        formPresensiActive.style.display = 'none';
+        formPresensiActive.classList.add('hidden');
+    }
+
     let countdownElement = document.getElementById('countdown');
     const headerElement = document.querySelector('h2');
-    const formPresensiActive = document.getElementById('form-presensi-active');
     const modalActive = document.getElementById('modal-active');
+    const info = document.getElementById('info');
 
     if (!countdownElement && headerElement) {
         countdownElement = document.createElement('div');
@@ -122,18 +129,25 @@ function updateCountdown(timeData) {
                 const startHours = Math.floor(timeToStart / (1000 * 60 * 60));
                 const startMinutes = Math.floor((timeToStart % (1000 * 60 * 60)) / (1000 * 60));
                 const startSeconds = Math.floor((timeToStart % (1000 * 60)) / 1000);
-
                 countdownElement.textContent = `Presensi akan dibuka dalam: ${startHours}:${startMinutes}:${startSeconds}`;
             }
-            // Hide form and modal before start time
-            if (formPresensiActive) formPresensiActive.classList.add('hidden');
+            // Ensure form stays hidden
+            if (formPresensiActive) {
+                formPresensiActive.style.display = 'none';
+                formPresensiActive.classList.add('hidden');
+            }
             if (modalActive) modalActive.classList.remove('hidden');
+            if (info) info.classList.add('hidden');
             return;
         }
 
-        // Show form and modal when start time is reached
-        if (formPresensiActive) formPresensiActive.classList.remove('hidden');
+        // Show form only when appropriate
+        if (formPresensiActive) {
+            formPresensiActive.style.display = '';
+            formPresensiActive.classList.remove('hidden');
+        }
         if (modalActive) modalActive.classList.remove('hidden');
+        if (info) info.classList.add('hidden');
 
         const distance = endTime - now;
 
@@ -141,6 +155,10 @@ function updateCountdown(timeData) {
             clearInterval(countdownInterval);
             if (countdownElement) {
                 countdownElement.textContent = 'Waktu presensi telah berakhir';
+            }
+            if (formPresensiActive) {
+                formPresensiActive.style.display = 'none';
+                formPresensiActive.classList.add('hidden');
             }
             updateModalVisibility({ status: 'expired' });
             return;
@@ -155,7 +173,6 @@ function updateCountdown(timeData) {
         }
     }, 1000);
 }
-
 // Modified checkCountdownStatus to exclude overlay logic
 async function checkCountdownStatus() {
     try {

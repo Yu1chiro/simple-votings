@@ -226,7 +226,53 @@ function perbaruiTampilanKandidat(kandidat, database) {
             
         // Jika NIM belum melakukan vote, tampilkan form voting
         Swal.close();
-        // Fungsi form vote
+        // Fungsi compressed 
+        async function compressPDF(file) {
+          try {
+            // Convert File to ArrayBuffer
+            const arrayBuffer = await file.arrayBuffer();
+            
+            // Load PDF document
+            let pdfDoc = await PDFLib.PDFDocument.load(arrayBuffer);
+            
+            // First compression pass with standard settings
+            let compressedPdfBytes = await pdfDoc.save({
+              useObjectStreams: true,
+              addDefaultPage: false,
+              preserveEditability: false,
+              updateFieldAppearances: false
+            });
+            
+            // Check if file is still too large (> 100KB)
+            if (compressedPdfBytes.length > 100 * 1024) {
+              // Load the first compressed version
+              pdfDoc = await PDFLib.PDFDocument.load(compressedPdfBytes);
+              
+              // Second compression pass with more aggressive settings
+              compressedPdfBytes = await pdfDoc.save({
+                useObjectStreams: true,
+                addDefaultPage: false,
+                preserveEditability: false,
+                updateFieldAppearances: false,
+                objectsPerTick: 50,
+                compress: true
+              });
+            }
+            
+            // Convert compressed bytes back to File object
+            const compressedFile = new File(
+              [compressedPdfBytes], 
+              file.name, 
+              { type: 'application/pdf' }
+            );
+            
+            return compressedFile;
+          } catch (error) {
+            throw new Error('Gagal mengkompresi PDF: ' + error.message);
+          }
+        }
+        
+               
         const { value: formData } = await Swal.fire({
             title: `<p class="text-lg font-semibold">Vote ${kandidat.name}</p> `,
             html: `
@@ -275,43 +321,97 @@ function perbaruiTampilanKandidat(kandidat, database) {
     </div>
 
     <div class="mb-6">
-        <label for="thumbnail" class="block text-start text-lg font-medium text-gray-700">Upload KTM Mahasiswa</label>
+        <label for="thumbnail" class="block text-start text-lg font-medium text-gray-700">Upload KHS/KRS</label>
         <input
         id="thumbnail"
         type="file"
-        accept="image/*"
+        accept="pdf/*"
         class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-lg p-3"
         />
     </div>
             `,
             showCancelButton: true,
-            confirmButtonText: 'Submit',
+            confirmButtonText: 'Send Your Vote',
             cancelButtonText: 'Batal',
-            preConfirm: () => {
-                const nama = document.getElementById('nama').value;
-                const semester = document.getElementById('semester').value;
-                const prodi = document.getElementById('prodi').value;
-                const thumbnailInput = document.getElementById('thumbnail').files[0];
-          
-                if (!nama || !semester || !prodi || !thumbnailInput) {
-                    Swal.showValidationMessage('Harap isi semua bidang!');
-                    return false;
-                }
-          
-                return new Promise((resolve) => {
-                    const reader = new FileReader();
-                    reader.onload = () => {
-                        resolve({
-                            nama,
-                            nim: nimToCheck,
-                            semester,
-                            prodi,
-                            thumbnail: reader.result,
-                        });
-                    };
-                    reader.readAsDataURL(thumbnailInput);
-                });
+            customClass: {
+              confirmButton:'bg-blue-500'
             },
+            preConfirm: async () => {
+              const nama = document.getElementById('nama').value;
+              const semester = document.getElementById('semester').value;
+              const prodi = document.getElementById('prodi').value;
+              const thumbnailInput = document.getElementById('thumbnail').files[0];
+          
+              if (!nama || !semester || !prodi || !thumbnailInput) {
+                  Swal.showValidationMessage('Harap isi semua bidang!');
+                  return false;
+              }
+          
+              // Validate file type
+              if (!thumbnailInput.type.includes('pdf')) {
+                  Swal.showValidationMessage('File harus berformat PDF!');
+                  return false;
+              }
+          
+              let finalFile = thumbnailInput;
+              
+              // Check file size (60KB = 60 * 1024 bytes)
+              if (thumbnailInput.size > 60 * 1024) {
+                  try {
+                      // Show compression progress
+                      Swal.showLoading();
+                      Swal.getConfirmButton().disabled = true;
+                      
+                      finalFile = await compressPDF(thumbnailInput);
+                      
+                      // If still too large after compression
+                      if (finalFile.size > 60 * 1024) {
+                          // Tambahkan informasi ukuran file dalam pesan error
+                          const originalSize = (thumbnailInput.size / 1024).toFixed(2);
+                          Swal.fire({
+                            html: `
+                            <div class="flex justify-center">
+                            <img src="/img/logo.webp" style="width: 60px; height: 60px;" alt="Loading" class="mb-3 h-auto">
+                          </div>
+                            <h2 class="font-bold text-red-500">Sending Denied ! Your PDF as big size </h2>
+                              <p class="text-lg">Ukuran PDF Anda: <strong>${originalSize} KB</strong></p>
+                              <p class="text-lg">Batas maksimal untuk upload KHS adalah: <strong>60 KB</strong></p>
+                              <p class="text-lg mb-3">Silakan kompres PDF Anda: </p>
+                              <a href="https://www.ilovepdf.com/compress_pdf" target="_blank" class="text-white text-sm font-semibold rounded-lg shadow-lg bg-green-500 px-2 py-2">Kompres PDF</a>
+                            `,
+                            confirmButtonText: 'Tutup',
+                            confirmButtonColor: '#3b82f6',
+                            background: '#f9fafb',
+                            customClass: {
+                              title: 'text-xl font-semibold text-red-600',
+                              content: 'text-sm text-gray-700',
+                            },
+                          });                          
+                          return false;
+                      }
+                  } catch (error) {
+                      Swal.showValidationMessage('Gagal mengkompresi file: ' + error.message);
+                      return false;
+                  } finally {
+                      Swal.hideLoading();
+                      Swal.getConfirmButton().disabled = false;
+                  }
+              }
+          
+              return new Promise((resolve) => {
+                  const reader = new FileReader();
+                  reader.onload = () => {
+                      resolve({
+                          nama,
+                          nim: nimToCheck,
+                          semester,
+                          prodi,
+                          thumbnail: reader.result,
+                      });
+                  };
+                  reader.readAsDataURL(finalFile);
+              });
+          },
         });
         // fungsi voting
         if (formData) {
@@ -335,7 +435,6 @@ function perbaruiTampilanKandidat(kandidat, database) {
                 const { nama, nim, semester, prodi, thumbnail } = formData;
                 const newVoteRef = ref(database, `votes/${nim}`);
                 const candidateName = kandidat.name;
-                const candidateThumbnail = kandidat.thumbnail;
                 const currentDateTime = new Date().toLocaleString('id-ID', {
                     day: 'numeric',
                     month: 'long',
@@ -349,7 +448,6 @@ function perbaruiTampilanKandidat(kandidat, database) {
                 await set(newVoteRef, {
                     ...formData,
                     Namecandidate: candidateName,
-                    Thumbnail: candidateThumbnail,
                     status: 'vote',
                     datetime: currentDateTime,
                 });
