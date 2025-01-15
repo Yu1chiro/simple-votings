@@ -45,17 +45,18 @@ function updateCandidatesCards(candidates) {
     loadingState.style.display = 'none';
     
     if (candidates) {
+    
       Object.entries(candidates).forEach(([key, candidate]) => {
         const cardElement = document.createElement('div');
-        cardElement.className = 'bg-[linear-gradient(120deg,#0A3981_64%,#020C1B_100%)] p-6 rounded-lg shadow-md';
+        cardElement.className = 'bg-gradient-to-r from-[#0a387f] to-[#1C1678] animate-card p-6 rounded-lg shadow-md';
         
         cardElement.innerHTML = `
           <div class="h-62 flex justify-center rounded mb-4">
             <img src="${candidate.thumbnail}" class="rounded h-62" alt="${candidate.name}">
           </div>
-          <h3 class="text-xl font-semibold mb-2 text-white">${candidate.name}</h3>
+          <h3 class="text-xl font-custom font-semibold mb-2 text-transparent bg-clip-text bg-gradient-to-r from-[hsl(42,85%,65%)] to-[hsl(42,80%,85%)]">${candidate.name}</h3>
           <a href="/vote/candidates.html?url=${candidate.url}" >
-            <button  class="bg-blue-700 text-[#FAFAFA] font-semibold  px-6 py-3 rounded-lg shadow-md hover:bg-green-700 hover:text-[#FAFAFA] transition">
+            <button class="bg-blue-700 text-[#FAFAFA] font-semibold  px-6 py-3 rounded-lg shadow-md hover:bg-green-700 hover:text-[#FAFAFA] transition">
               Detail
             </button>
           </a>

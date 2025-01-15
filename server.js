@@ -46,4 +46,36 @@ app.use(express.static(path.join(__dirname, 'public'), {
   }
 }));
 
+// Handler untuk rute yang tidak ditemukan - moved before app.listen()
+app.use((req, res) => {
+  res.status(404).send(`
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 Not Found</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-[url('/img/pixel.jpg')] bg-cover bg-no-repeat flex items-center justify-center min-h-screen">
+  <div class="bg-gradient-to-r from-[#0a387f] to-[#1C1678] animate-card text-white rounded-lg shadow-md p-6 mx-auto max-w-lg">
+    <h1 class="font-bold text-transparent bg-clip-text bg-gradient-to-r from-[hsl(42,85%,65%)] to-[hsl(42,80%,85%)] text-center text-2xl mb-4 font-custom">
+      404 Page Not Found
+    </h1>
+    <p class="text-center mb-6">
+      Sepertinya halaman yang Anda cari tidak tersedia
+    </p>
+    <div class="flex justify-center">
+      <a href="/" class="px-4 py-2 bg-green-600 text-white rounded-lg shadow-md hover:bg-green-700 transition">
+        Kembali ke Beranda
+      </a>
+    </div>
+  </div>
+</body>
+
+</html>
+    `);
+});
+
+// Start the server
 app.listen(3000, () => console.log('Server running at http://localhost:3000'));

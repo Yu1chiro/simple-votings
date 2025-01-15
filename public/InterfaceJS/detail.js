@@ -92,7 +92,7 @@ function perbaruiTampilanKandidat(kandidat, database) {
   if (fetchDataContainer) {
     fetchDataContainer.innerHTML = `
       <div class="max-w-md mx-auto space-y-4">
-        <div class="bg-[linear-gradient(120deg,#0A3981_64%,#020C1B_100%)] rounded-xl p-4 shadow-lg">
+        <div class="bg-gradient-to-r from-[#0a387f] to-[#1C1678] animate-card rounded-xl p-4 shadow-lg">
           <div class="bg-blue-100 rounded-lg p-4">
             <div class="flex justify-between items-center mb-4">
               <img src="/img/undiksha.png" width="50px" height="auto" alt="">
@@ -105,7 +105,7 @@ function perbaruiTampilanKandidat(kandidat, database) {
             </div>
           </div>
           <div class="flex justify-center">
-            <button id="vote-button" class="bg-blue-700 mt-3 text-[#FAFAFA] font-semibold  px-6 py-3 rounded-lg shadow-md hover:bg-green-700 hover:text-[#FAFAFA] transition">
+            <button id="vote-button" class="bg-gradient-to-r from-[#3b82f6] to-[#16A34A] font-custom animate-gradient-bg mt-3 text-[#FAFAFA] font-semibold  px-6 py-3 rounded-lg shadow-md hover:bg-green-700 hover:text-[#FAFAFA] transition">
               <img src="/img/note-ico.png" class="rounded-lg inline-block" width="25px" height="auto" alt="">
               Vote Now
             </button>

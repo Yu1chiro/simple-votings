@@ -1,6 +1,15 @@
-h1 {
-    font-family: "Poppins", serif!important;
+@font-face {
+    font-family: 'Upheaval';
+    src: url('/upheavtt.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
 
+.font-custom {
+    font-family: 'Upheaval', sans-serif!important;
+}
+h1 {
+    font-family: 'Upheaval', sans-serif;
 }
 h2 {
     font-family: "Poppins", serif!important;
@@ -30,3 +39,35 @@ a {
 button {
     font-family: "Poppins", serif!important;
 }
+@keyframes gradientBackground {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+  .animate-gradient-bg {
+    background-size: 200% 200%;
+    animation: gradientBackground 1.5s ease infinite;
+  }
+@keyframes gradientCard {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+  .animate-card {
+    background-size: 200% 200%;
+    animation: gradientCard 1.5s ease infinite;
+  }

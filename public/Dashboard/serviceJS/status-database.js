@@ -2,79 +2,103 @@ import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.22.2/firebas
 import { getAuth } from 'https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js';
 import { getDatabase, ref, get, remove, onValue } from 'https://www.gstatic.com/firebasejs/9.22.2/firebase-database.js';
 
-// Global variables
+// Konstanta untuk monitoring
+const MONITORING_CONFIG = {
+    MAX_SIZE_MB: 50,
+    THROTTLE_MS: 1000,
+    WARNING_THRESHOLD: 90,
+    ATTENTION_THRESHOLD: 70
+};
+
+let lastUpdate = 0;
 let firebaseDatabase = null;
-let combinedData = [];
+
+// Fungsi untuk menghitung ukuran data
+function calculateDatabaseSize(snapshot) {
+    try {
+        const dataString = JSON.stringify(snapshot.val() || {});
+        return dataString.length / (1024 * 1024); // Konversi ke MB
+    } catch (error) {
+        console.error('Error menghitung ukuran database:', error);
+        return 0;
+    }
+}
 
 async function initializeFirebase() {
     try {
         const response = await fetch('/firebase-config');
-        if (!response.ok) throw new Error('Failed to load Firebase config');
+        if (!response.ok) throw new Error('Gagal memuat konfigurasi Firebase');
         const firebaseConfig = await response.json();
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const database = getDatabase(app);
         
-        // Set the global database reference
         firebaseDatabase = database;
         
-        // Start monitoring database size
-        await monitorDatabaseSize(database);
+        await setupDatabaseMonitoring(database);
         
         return database;
     } catch (error) {
-        console.error('Error initializing Firebase:', error);
+        console.error('Error inisialisasi Firebase:', error);
         throw error;
     }
 }
 
-async function monitorDatabaseSize(database) {
+async function setupDatabaseMonitoring(database) {
     if (!database) {
-        throw new Error('Database reference is not initialized');
+        throw new Error('Referensi database belum diinisialisasi');
     }
 
     const rootRef = ref(database, '/');
     
     onValue(rootRef, async (snapshot) => {
         try {
-            const dataSize = JSON.stringify(snapshot.val()).length;
-            const dataSizeInMB = dataSize / (1024 * 1024);
-            const maxSize = 50;
-            const usagePercentage = (dataSizeInMB / maxSize) * 100;
+            const now = Date.now();
+            if (now - lastUpdate < MONITORING_CONFIG.THROTTLE_MS) return;
+            lastUpdate = now;
 
-            updateDatabaseStatusUI(dataSizeInMB, usagePercentage);
+            const dataSizeInMB = calculateDatabaseSize(snapshot);
+            const usagePercentage = (dataSizeInMB / MONITORING_CONFIG.MAX_SIZE_MB) * 100;
 
-            if (usagePercentage >= 90) {
-                await showDatabaseWarning();
+            await updateMonitoringUI(dataSizeInMB, usagePercentage);
+
+            if (usagePercentage >= MONITORING_CONFIG.WARNING_THRESHOLD) {
+                await showWarningAlert();
             }
         } catch (error) {
-            console.error('Error monitoring database size:', error);
-            throw new Error('Gagal memantau ukuran database');
+            console.error('Error dalam monitoring database:', error);
+            handleMonitoringError(error);
         }
+    }, {
+        onlyOnce: false // Memastikan monitoring tetap berjalan
     });
 }
 
-function updateDatabaseStatusUI(size, percentage) {
+function updateMonitoringUI(size, percentage) {
     const statusContainer = document.getElementById('status-database');
-    
     if (!statusContainer) {
-        console.error('Container dengan ID "status-database" tidak ditemukan');
+        console.error('Container status-database tidak ditemukan');
         return;
     }
+
+    const getStatusConfig = (percentage) => {
+        if (percentage >= MONITORING_CONFIG.WARNING_THRESHOLD) {
+            return { class: 'bg-red-100 text-red-800', text: 'Kritis', barColor: 'bg-red-500' };
+        } else if (percentage >= MONITORING_CONFIG.ATTENTION_THRESHOLD) {
+            return { class: 'bg-yellow-100 text-yellow-800', text: 'Perhatian', barColor: 'bg-yellow-500' };
+        }
+        return { class: 'bg-green-100 text-green-800', text: 'Normal', barColor: 'bg-green-500' };
+    };
+
+    const status = getStatusConfig(percentage);
     
     const statusHTML = `
         <div class="bg-white rounded-lg shadow-lg p-4">
             <div class="flex items-center justify-between mb-2">
                 <h3 class="text-lg font-semibold text-gray-800">Status Database</h3>
-                <span class="px-2 py-1 rounded-full text-sm ${
-                    percentage >= 90 ? 'bg-red-100 text-red-800' :
-                    percentage >= 70 ? 'bg-yellow-100 text-yellow-800' :
-                    'bg-green-100 text-green-800'
-                }">
-                    ${percentage >= 90 ? 'Kritis' :
-                      percentage >= 70 ? 'Perhatian' :
-                      'Normal'}
+                <span class="px-2 py-1 rounded-full text-sm ${status.class}">
+                    ${status.text}
                 </span>
             </div>
             <div class="space-y-2">
@@ -84,11 +108,8 @@ function updateDatabaseStatusUI(size, percentage) {
                         <span class="text-sm font-medium">${percentage.toFixed(1)}%</span>
                     </div>
                     <div class="w-full bg-gray-200 rounded-full h-2">
-                        <div class="h-2 rounded-full ${
-                            percentage >= 90 ? 'bg-red-500' :
-                            percentage >= 70 ? 'bg-yellow-500' :
-                            'bg-green-500'
-                        }" style="width: ${percentage}%"></div>
+                        <div class="h-2 rounded-full ${status.barColor} transition-all duration-300" 
+                             style="width: ${percentage}%"></div>
                     </div>
                 </div>
                 <div class="flex justify-between items-center">
@@ -102,7 +123,7 @@ function updateDatabaseStatusUI(size, percentage) {
     statusContainer.innerHTML = statusHTML;
 }
 
-async function showDatabaseWarning() {
+async function showWarningAlert() {
     await Swal.fire({
         html: `
             <div class="flex justify-center">
@@ -122,13 +143,26 @@ async function showDatabaseWarning() {
     });
 }
 
-// Initialize Firebase when the page loads
+function handleMonitoringError(error) {
+    console.error('Error dalam monitoring:', error);
+    const statusContainer = document.getElementById('status-database');
+    if (statusContainer) {
+        statusContainer.innerHTML = `
+            <div class="bg-red-100 p-4 rounded-lg">
+                <p class="text-red-800">Terjadi kesalahan dalam monitoring database. Silakan refresh halaman.</p>
+            </div>
+        `;
+    }
+}
+
+// Inisialisasi saat halaman dimuat
 document.addEventListener('DOMContentLoaded', async () => {
     try {
         await initializeFirebase();
     } catch (error) {
-        console.error('Failed to initialize Firebase:', error);
+        console.error('Gagal menginisialisasi Firebase:', error);
+        handleMonitoringError(error);
     }
 });
 
-export { initializeFirebase, monitorDatabaseSize };
+export { initializeFirebase, setupDatabaseMonitoring };
