@@ -91,6 +91,13 @@
                 <!-- VIEWS OF STATISTC -->
                 <div class="w-full mt-3">
                     <p class="text-xl pb-3 flex items-center">
+                        <i class="fas fa-list mr-3"></i> Monitoring Databases
+                    </p>
+                   <div id="status-database"></div>
+                </div>
+                <!-- VIEWS OF STATISTC -->
+                <div class="w-full mt-3">
+                    <p class="text-xl pb-3 flex items-center">
                         <i class="fas fa-list mr-3"></i> Statistik
                     </p>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -157,7 +164,7 @@
                                     <th class="text-center py-3 px-4 uppercase font-semibold text-sm">Smester</th>
                                     <th class="text-center py-3 px-4 uppercase font-semibold text-sm">Prodi</th>
                                     <th class="text-center py-3 px-4 uppercase font-semibold text-sm">KHS/KRS</th>
-                                    <th class="text-center py-3 px-4 uppercase font-semibold text-sm">Votes</th>
+                                    <th class="text-center py-3 px-4 uppercase font-semibold text-sm">Status</th>
                                     <th class="text-center py-3 px-4 uppercase font-semibold text-sm">CTA</th>
                                 </tr>
                             </thead>
@@ -285,6 +292,7 @@ function hideModal() {
       <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script type="module" src="/Dashboard/serviceJS/pw.js"></script>
     <script type="module" src="/Dashboard/serviceJS/votes-view.js"></script>
+    <script type="module" src="/Dashboard/serviceJS/status-database.js"></script>
     <script type="module" src="/Dashboard/serviceJS/statistic.js"></script>
     <script type="module" src="/Dashboard/serviceJS/fetch.js"></script>
 

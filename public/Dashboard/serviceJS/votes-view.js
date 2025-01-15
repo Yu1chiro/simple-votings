@@ -61,7 +61,7 @@ async function fetchVotes(database) {
       : `<img src="${vote.thumbnail}" onclick="showModal('${vote.thumbnail}')" alt="Thumbnail" class="w-16 h-16 cursor-pointer rounded-lg object-cover">`
     }
   </td>
-            <td class="text-center py-3 px-4">${vote.Namecandidate}</td>
+              <td class="text-center text-green-600 py-3 px-4">${vote.status} ✓</td>
             <td class="text-center py-3 px-4">
               <button class="bg-blue-500 mb-3 text-white px-4 py-2 rounded-lg" onclick="viewVoteDetail('${childSnapshot.key}')">Detail</button>
               <button class="bg-red-500 text-white px-4 py-2 rounded-lg" onclick="deleteVote('${childSnapshot.key}')">Delete</button>
@@ -90,10 +90,12 @@ window.viewVoteDetail = function (voteId) {
         html: `
   <div class="mb-4">
     <p class="text-lg font-semibold"><strong>Nama:</strong> ${vote.nama}</p>
-    <p class="text-lg"><strong>NIM:</strong> ${vote.nim}</p>
+    <p class="text-lg"><strong>Nim:</strong> ${vote.nim}</p>
+    <p class="text-lg"><strong>Email:</strong> ${vote.emailUndiksha}</p>
     <p class="text-lg"><strong>Semester:</strong> ${vote.semester}</p>
     <p class="text-lg"><strong>Prodi:</strong> ${vote.prodi}</p>
-    <p class="text-lg mb-3"><strong>Candidate Chosen:</strong> ${vote.Namecandidate}</p>
+    <p class="text-lg mb-3"><strong>Votes :</strong> ${vote.Namecandidate}</p>
+        <p class="text-lg"><strong>Prodi:</strong> ${vote.status} ✓</p>
        <p class="font-semibold mb-5">KHS Mahasiswa:</p>
                 ${vote.thumbnail.startsWith('data:application/pdf') 
                   ? createPDFLink(vote.thumbnail, 'View') 

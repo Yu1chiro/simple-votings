@@ -156,39 +156,80 @@ function perbaruiTampilanKandidat(kandidat, database) {
                         const nimPattern = /^\d{10}$/;
                         return nimPattern.test(nim);
                     };
-
-
+                    const validateUndekshaEmail = (emailUndiksha) => {
+                      const undekshaEmailPattern = /@student\.undiksha\.ac\.id$/;
+                      return undekshaEmailPattern.test(emailUndiksha);
+                  };
+                  
+                    const validateNIMFormat = (nim) => {
+                      // Check if NIM is exactly 10 digits
+                      if (!/^\d{10}$/.test(nim)) {
+                          return {
+                              isValid: false,
+                              message: 'NIM harus terdiri dari 10 digit angka!'
+                          };
+                      }
+                  
+                      // Extract parts of the NIM
+                      const yearCode = nim.substring(0, 3);    // First 3 digits (221/231/241)
+                      const majorCode = nim.substring(3, 6);   // Middle 3 digits (206/202/201)
+                  
+                      // Validate year code
+                      const validYearCodes = ['221', '231', '241'];
+                      if (!validYearCodes.includes(yearCode)) {
+                          return {
+                              isValid: false,
+                              message: 'Format tahun pada NIM tidak valid! (221/231/241)'
+                          };
+                      }
+                  
+                      // Validate major code
+                      const validMajorCodes = ['206', '202', '201'];
+                      if (!validMajorCodes.includes(majorCode)) {
+                          return {
+                              isValid: false,
+                              message: 'Kode jurusan pada NIM tidak valid! (206/202/201)'
+                          };
+                      }
+                  
+                      return {
+                          isValid: true,
+                          message: 'NIM valid'
+                      };
+                  };
 
         if (!nimToCheck) {
         const { value: nimInput } = await Swal.fire({
-            html: `
-            <div class="flex justify-center">
-            <img src="/img/logo.webp" style="width: 60px; height: 60px;" alt="Loading" class="mb-3 h-auto">
-            </div>
-            <h2 class="font-semibold">Silahkan Masukkan NIM :</h2>
-            `,
-            input: 'number',
-            inputPlaceholder: 'Masukkan NIM Anda',
-            showCancelButton: true,
-            confirmButtonText: 'Submit',
-            confirmButtonColor: '#16a34a',
-            cancelButtonText: 'Batal',
-            inputValidator: (value) => {
-                if (!value) {
-                    return 'NIM tidak boleh kosong!';
-                }
-                if (!validateNIM(value)) {
-                    return 'NIM harus terdiri dari 10 digit angka!';
-                }
-            },
-        });
-        
-            if (!nimInput) {
-            Swal.close();
-            return;
+        html: `
+        <div class="flex justify-center">
+        <img src="/img/logo.webp" style="width: 60px; height: 60px;" alt="Loading" class="mb-3 h-auto">
+        </div>
+        <h2 class="font-semibold">Silahkan Masukkan NIM :</h2>
+        `,
+        input: 'text',
+        inputPlaceholder: 'Masukkan NIM Anda',
+        showCancelButton: true,
+        confirmButtonText: 'Submit',
+        confirmButtonColor: '#16a34a',
+        cancelButtonText: 'Batal',
+        inputValidator: (value) => {
+            if (!value) {
+                return 'NIM tidak boleh kosong!';
             }
-        
-            nimToCheck = nimInput;
+            const validation = validateNIMFormat(value);
+            if (!validation.isValid) {
+                return validation.message;
+            }
+        }
+    });
+
+    if (!nimInput) {
+        Swal.close();
+        return;
+    }
+
+    nimToCheck = nimInput;
+
             
             Swal.fire({
                 html: `
@@ -271,148 +312,219 @@ function perbaruiTampilanKandidat(kandidat, database) {
             throw new Error('Gagal mengkompresi PDF: ' + error.message);
           }
         }
-        
-               
-        const { value: formData } = await Swal.fire({
-            title: `<p class="text-lg font-semibold">Vote ${kandidat.name}</p> `,
-            html: `
-           <div class="mb-6">
-        <label for="nama" class="block text-start text-lg font-medium text-gray-700">Nama Lengkap</label>
-        <input
-        id="nama"
-        type="text"
-        class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-lg p-3"
-        placeholder="Nama Lengkap"
-        />
-    </div>
-
-    <div class="mb-6">
-        <label for="nim" class="block text-start text-lg font-medium text-gray-700">NIM</label>
-        <input
-        id="nim"
-        type="text"
-        value="${nimToCheck}"
-        readonly
-        class="mt-2 block w-full rounded-md border-gray-300 shadow-sm bg-gray-100 text-lg p-3 focus:border-indigo-500 focus:ring-indigo-500"
-        />
-    </div>
-
-    <div class="mb-6">
-        <label for="semester" class="block text-start text-lg font-medium text-gray-700">Semester</label>
-        <input
-        id="semester"
-        type="text"
-        class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-lg p-3"
-        placeholder="Semester"
-        />
-    </div>
-
-    <div class="mb-6">
-        <label for="prodi" class="block text-start text-lg font-medium text-gray-700">Program Studi</label>
-        <select
-        id="prodi"
-        class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-lg p-3"
-        >
-        <option value="">Pilih Prodi</option>
-        <option value="Pendidikan Bahasa Inggris">Pendidikan Bahasa Inggris</option>
-        <option value="Pendidikan Bahasa Jepang">Pendidikan Bahasa Jepang</option>
-        <option value="Bahasa Inggris untuk Komunikasi Bisnis dan Profesional">Bahasa Inggris untuk Komunikasi Bisnis dan Profesional</option>
-        </select>
-    </div>
-
-    <div class="mb-6">
-        <label for="thumbnail" class="block text-start text-lg font-medium text-gray-700">Upload KHS/KRS</label>
-        <input
-        id="thumbnail"
-        type="file"
-        accept="pdf/*"
-        class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-lg p-3"
-        />
-    </div>
-            `,
-            showCancelButton: true,
-            confirmButtonText: 'Send Your Vote',
-            cancelButtonText: 'Batal',
-            customClass: {
-              confirmButton:'bg-blue-500'
-            },
-            preConfirm: async () => {
-              const nama = document.getElementById('nama').value;
-              const semester = document.getElementById('semester').value;
-              const prodi = document.getElementById('prodi').value;
-              const thumbnailInput = document.getElementById('thumbnail').files[0];
-          
-              if (!nama || !semester || !prodi || !thumbnailInput) {
-                  Swal.showValidationMessage('Harap isi semua bidang!');
-                  return false;
-              }
-          
-              // Validate file type
-              if (!thumbnailInput.type.includes('pdf')) {
-                  Swal.showValidationMessage('File harus berformat PDF!');
-                  return false;
-              }
-          
-              let finalFile = thumbnailInput;
+        async function checkDatabaseSize(database) {
+          try {
+              const rootRef = ref(database, '/');
+              const snapshot = await get(rootRef);
               
-              // Check file size (60KB = 60 * 1024 bytes)
-              if (thumbnailInput.size > 60 * 1024) {
-                  try {
-                      // Show compression progress
-                      Swal.showLoading();
-                      Swal.getConfirmButton().disabled = true;
-                      
-                      finalFile = await compressPDF(thumbnailInput);
-                      
-                      // If still too large after compression
-                      if (finalFile.size > 60 * 1024) {
-                          // Tambahkan informasi ukuran file dalam pesan error
-                          const originalSize = (thumbnailInput.size / 1024).toFixed(2);
-                          Swal.fire({
-                            html: `
-                            <div class="flex justify-center">
-                            <img src="/img/logo.webp" style="width: 60px; height: 60px;" alt="Loading" class="mb-3 h-auto">
+              // Konversi data ke string JSON untuk estimasi ukuran
+              const dataSize = JSON.stringify(snapshot.val()).length;
+              
+              // Konversi ke MB (1 MB = 1024 * 1024 bytes)
+              const dataSizeInMB = dataSize / (1024 * 1024);
+              
+              // Batas maksimum database (50MB untuk free plan)
+              const maxSize = 50;
+              
+              // Jika ukuran database sudah mencapai 90% dari batas
+              if (dataSizeInMB >= (maxSize * 0.9)) {
+                  await Swal.fire({
+                      html: `
+                          <div class="flex justify-center">
+                              <img src="/img/logo.webp" style="width: 60px; height: 60px;" alt="Warning" class="mb-3 h-auto">
                           </div>
-                            <h2 class="font-bold text-red-500">Sending Denied ! Your PDF as big size </h2>
-                              <p class="text-lg">Ukuran PDF Anda: <strong>${originalSize} KB</strong></p>
-                              <p class="text-lg">Batas maksimal untuk upload KHS adalah: <strong>60 KB</strong></p>
-                              <p class="text-lg mb-3">Silakan kompres PDF Anda: </p>
-                              <a href="https://www.ilovepdf.com/compress_pdf" target="_blank" class="text-white text-sm font-semibold rounded-lg shadow-lg bg-green-500 px-2 py-2">Kompres PDF</a>
-                            `,
-                            confirmButtonText: 'Tutup',
-                            confirmButtonColor: '#3b82f6',
-                            background: '#f9fafb',
-                            customClass: {
-                              title: 'text-xl font-semibold text-red-600',
-                              content: 'text-sm text-gray-700',
-                            },
-                          });                          
-                          return false;
-                      }
-                  } catch (error) {
-                      Swal.showValidationMessage('Gagal mengkompresi file: ' + error.message);
-                      return false;
-                  } finally {
-                      Swal.hideLoading();
-                      Swal.getConfirmButton().disabled = false;
-                  }
+                          <h2 class="font-semibold text-red-500 mb-3">Perhatian!</h2>
+                          <p class="text-gray-700 mb-4">Sistem voting sedang dalam kapasitas tinggi.</p>
+                          <p class="text-gray-700 mb-4">Silakan gunakan link alternatif di bawah ini:</p>
+                          <a href="https://LINK-ALTERNATIF-ANDA" 
+                             class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors"
+                             target="_blank">
+                              Menuju Sistem Voting Alternatif
+                          </a>
+                      `,
+                      showConfirmButton: false,
+                      allowOutsideClick: false
+                  });
+                  return false;
               }
-          
-              return new Promise((resolve) => {
-                  const reader = new FileReader();
-                  reader.onload = () => {
-                      resolve({
-                          nama,
-                          nim: nimToCheck,
-                          semester,
-                          prodi,
-                          thumbnail: reader.result,
-                      });
-                  };
-                  reader.readAsDataURL(finalFile);
-              });
-          },
-        });
+              return true;
+          } catch (error) {
+              console.error('Error checking database size:', error);
+              throw new Error('Gagal memeriksa kapasitas database');
+          }
+      }
+      
+               
+      const { value: formData } = await Swal.fire({
+        title: `<p class="text-lg font-semibold">Vote ${kandidat.name}</p>`,
+        html: `
+            <div class="mb-6">
+                <label for="nama" class="block text-start text-lg font-medium text-gray-700">Nama Lengkap</label>
+                <input
+                    id="nama"
+                    type="text"
+                    class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-lg p-3"
+                    placeholder="Nama Lengkap"
+                />
+            </div>
+    
+            <div class="mb-6">
+                <label for="nim" class="block text-start text-lg font-medium text-gray-700">NIM</label>
+                <input
+                    id="nim"
+                    type="text"
+                    value="${nimToCheck}"
+                    readonly
+                    class="mt-2 block w-full rounded-md border-gray-300 shadow-sm bg-gray-100 text-lg p-3 focus:border-indigo-500 focus:ring-indigo-500"
+                />
+            </div>
+    
+            <div class="mb-6">
+                <label for="email-undiksha" class="block text-start text-lg font-medium text-gray-700">Masukkan Email</label>
+                <input
+                    id="email-undiksha"
+                    type="email"
+                    class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-lg p-3"
+                    placeholder="Email Undiksha"
+                />
+            </div>
+    
+            <div class="mb-6">
+                <label for="semester" class="block text-start text-lg font-medium text-gray-700">Semester</label>
+                <select
+                    id="semester"
+                    class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-lg p-3"
+                >
+                    <option value="">Pilih Semester</option>
+                    <option value="Semester 1">Semester 1</option>
+                    <option value="Semester 3">Semester 3</option>
+                    <option value="Semester 5">Semester 5</option>
+                    <option value="Semester 7">Semester 7</option>
+                </select>
+            </div>
+    
+            <div class="mb-6">
+                <label for="prodi" class="block text-start text-lg font-medium text-gray-700">Program Studi</label>
+                <select
+                    id="prodi"
+                    class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-lg p-3"
+                >
+                    <option value="">Pilih Prodi</option>
+                    <option value="Pendidikan Bahasa Inggris">Pendidikan Bahasa Inggris</option>
+                    <option value="Pendidikan Bahasa Jepang">Pendidikan Bahasa Jepang</option>
+                    <option value="Bahasa Inggris untuk Komunikasi Bisnis dan Profesional">Bahasa Inggris untuk Komunikasi Bisnis dan Profesional</option>
+                </select>
+            </div>
+    
+            <div class="mb-6">
+                <label for="thumbnail" class="block text-start text-lg font-medium text-gray-700">Upload KHS/KRS</label>
+                <input
+                    id="thumbnail"
+                    type="file"
+                    accept="application/pdf"
+                    class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-lg p-3"
+                />
+            </div>
+        `,
+        showCancelButton: true,
+        confirmButtonText: 'Kirim Vote Anda',
+        cancelButtonText: 'Batal',
+        customClass: {
+            confirmButton: 'bg-blue-500'
+        },
+        preConfirm: async () => {
+            try {
+                Swal.showLoading();
+                
+                const database = getDatabase();
+                const isDatabaseAvailable = await checkDatabaseSize(database);
+                
+                if (!isDatabaseAvailable) {
+                    return false;
+                }
+    
+                const nama = document.getElementById('nama').value;
+                const emailUndiksha = document.getElementById('email-undiksha').value;
+                const semester = document.getElementById('semester').value;
+                const prodi = document.getElementById('prodi').value;
+                const thumbnailInput = document.getElementById('thumbnail').files[0];
+    
+                if (!nama || !emailUndiksha || !semester || !prodi || !thumbnailInput) {
+                    Swal.showValidationMessage('Harap isi semua field yang diperlukan!');
+                    return false;
+                }
+    
+                if (!validateUndekshaEmail(emailUndiksha)) {
+                    Swal.showValidationMessage('Email harus menggunakan domain @student.undiksha.ac.id');
+                    return false;
+                }
+    
+                if (!thumbnailInput.type.includes('pdf')) {
+                    Swal.showValidationMessage('File harus berformat PDF!');
+                    return false;
+                }
+    
+                let finalFile = thumbnailInput;
+                
+                if (thumbnailInput.size > 60 * 1024) {
+                    try {
+                        Swal.showLoading();
+                        Swal.getConfirmButton().disabled = true;
+                        
+                        finalFile = await compressPDF(thumbnailInput);
+                        
+                        if (finalFile.size > 60 * 1024) {
+                            const originalSize = (thumbnailInput.size / 1024).toFixed(2);
+                            Swal.fire({
+                                html: `
+                                    <div class="flex justify-center">
+                                        <img src="/img/logo.webp" style="width: 60px; height: 60px;" alt="Loading" class="mb-3 h-auto">
+                                    </div>
+                                    <h2 class="font-bold text-red-500">Pengiriman Ditolak! PDF Anda Terlalu Besar</h2>
+                                    <p class="text-lg">Ukuran PDF Anda: <strong>${originalSize} KB</strong></p>
+                                    <p class="text-lg">Batas maksimal untuk upload KHS adalah: <strong>60 KB</strong></p>
+                                    <p class="text-lg mb-3">Silakan kompres PDF Anda: </p>
+                                    <a href="https://www.ilovepdf.com/compress_pdf" target="_blank" class="text-white text-sm font-semibold rounded-lg shadow-lg bg-green-500 px-2 py-2">Kompres PDF</a>
+                                `,
+                                confirmButtonText: 'Tutup',
+                                confirmButtonColor: '#3b82f6',
+                                background: '#f9fafb',
+                                customClass: {
+                                    title: 'text-xl font-semibold text-red-600',
+                                    content: 'text-sm text-gray-700'
+                                }
+                            });
+                            return false;
+                        }
+                    } catch (error) {
+                        Swal.showValidationMessage('Gagal mengkompresi file: ' + error.message);
+                        return false;
+                    } finally {
+                        Swal.hideLoading();
+                        Swal.getConfirmButton().disabled = false;
+                    }
+                }
+    
+                return new Promise((resolve) => {
+                    const reader = new FileReader();
+                    reader.onload = () => {
+                        resolve({
+                            nama,
+                            nim: nimToCheck,
+                            emailUndiksha,
+                            semester,
+                            prodi,
+                            thumbnail: reader.result
+                        });
+                    };
+                    reader.readAsDataURL(finalFile);
+                });
+            } catch (error) {
+                Swal.showValidationMessage('Terjadi kesalahan: ' + error.message);
+                return false;
+            }
+        }
+    });
         // fungsi voting
         if (formData) {
             try {
@@ -432,7 +544,7 @@ function perbaruiTampilanKandidat(kandidat, database) {
         
                 await new Promise(resolve => setTimeout(resolve, 1000)); // Simulasi delay 1 detik
         
-                const { nama, nim, semester, prodi, thumbnail } = formData;
+                const { nama, nim, emailUndiksha, semester, prodi, thumbnail } = formData;
                 const newVoteRef = ref(database, `votes/${nim}`);
                 const candidateName = kandidat.name;
                 const currentDateTime = new Date().toLocaleString('id-ID', {
@@ -447,8 +559,9 @@ function perbaruiTampilanKandidat(kandidat, database) {
                 // Simpan data ke Firebase
                 await set(newVoteRef, {
                     ...formData,
+                    emailUndiksha,
                     Namecandidate: candidateName,
-                    status: 'vote',
+                    status: 'vote ✓',
                     datetime: currentDateTime,
                 });
         
