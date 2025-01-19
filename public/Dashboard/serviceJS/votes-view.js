@@ -37,7 +37,6 @@ function createPDFLink(base64Data, linkText) {
   // Kembalikan elemen tautan
   return `<a href="${blobURL}" target="_blank" class="text-white rounded-lg bg-green-500 py-2 px-2 shadow-lg">${linkText}</a>`;
 }
-
 // Function to fetch votes and populate the table
 async function fetchVotes(database) {
   try {
@@ -52,7 +51,9 @@ async function fetchVotes(database) {
 
           voteRow.innerHTML = `
             <td class="text-center py-3 px-4">${vote.nama}</td>
-            <td class="text-center py-3 px-4">${vote.nim}</td>
+            <td class="text-center py-3 px-4">
+            <a href="https://mahasiswa.undiksha.ac.id/${vote.nim}" class="text-white bg-blue-500 rounded-lg px-2 py-1">${vote.nim}</a>
+            </td>
             <td class="text-center py-3 px-4">${vote.semester}</td>
             <td class="text-center py-3 px-4">${vote.prodi}</td>
            <td class="text-center py-3 px-4">
@@ -61,7 +62,7 @@ async function fetchVotes(database) {
       : `<img src="${vote.thumbnail}" onclick="showModal('${vote.thumbnail}')" alt="Thumbnail" class="w-16 h-16 cursor-pointer rounded-lg object-cover">`
     }
   </td>
-              <td class="text-center text-green-600 py-3 px-4">${vote.status} ✓</td>
+              <td class="text-center text-green-600 py-3 px-4">${vote.status}</td>
             <td class="text-center py-3 px-4">
               <button class="bg-blue-500 mb-3 text-white px-4 py-2 rounded-lg" onclick="viewVoteDetail('${childSnapshot.key}')">Detail</button>
               <button class="bg-red-500 text-white px-4 py-2 rounded-lg" onclick="deleteVote('${childSnapshot.key}')">Delete</button>
@@ -136,8 +137,114 @@ window.deleteVote = function (voteId) {
     console.error('Failed to delete vote:', error);
   });
 };
+// Fungsi untuk mengunduh data votes ke Excel
+async function downloadVotesToExcel() {
+  try {
+    const votesRef = ref(database, 'votes');
+    const snapshot = await get(votesRef);
+    
+    if (!snapshot.exists()) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Peringatan',
+        text: 'Tidak ada data votes yang tersedia untuk diunduh.',
+      });
+      return;
+    }
 
-// Initialize Firebase when the document is loaded
+    const votesData = [];
+    snapshot.forEach((childSnapshot) => {
+      const vote = childSnapshot.val();
+      const timestamp = new Date(vote.timestamp).toLocaleString('id-ID', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+      });
+      
+      votesData.push({
+        'Timestamp': timestamp,
+        'Nama Mahasiswa': vote.nama,
+        'Nim Mahasiswa': vote.nim,
+        'Email': vote.emailUndiksha,
+        'Semester': vote.semester,
+        'Program Studi': vote.prodi,
+        'Pilihan Paslon': vote.Namecandidate,
+        'Status': vote.status
+      });
+    });
+
+    const workbook = XLSX.utils.book_new();
+    const worksheet = XLSX.utils.json_to_sheet(votesData);
+
+    const columnWidths = [
+      { wch: 20 }, // Waktu Vote
+      { wch: 30 }, // Nama
+      { wch: 15 }, // NIM
+      { wch: 35 }, // Email
+      { wch: 10 }, // Semester
+      { wch: 25 }, // Prodi
+      { wch: 25 }, // Kandidat
+      { wch: 15 }  // Status
+    ];
+    worksheet['!cols'] = columnWidths;
+
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Data Votes');
+    XLSX.writeFile(workbook, `Data_Votes_${new Date().toLocaleDateString('id-ID')}.xlsx`);
+
+    Swal.fire({
+      icon: 'success',
+      title: 'Berhasil',
+      text: 'File Excel berhasil diunduh!',
+    });
+
+  } catch (error) {
+    console.error('Gagal mengunduh data:', error);
+    Swal.fire({
+      icon: 'error',
+      title: 'Gagal',
+      text: 'Terjadi kesalahan saat mengunduh data.',
+    });
+  }
+}
+window.deleteVotes = async function() {
+  try {
+    // Konfirmasi penghapusan terlebih dahulu
+    const result = await Swal.fire({
+      title: 'Apakah Anda yakin?',
+      text: "Semua data votes akan dihapus dan tidak dapat dikembalikan!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Ya, hapus semua!',
+      cancelButtonText: 'Batal'
+    });
+
+    if (result.isConfirmed) {
+      const votesRef = ref(database, 'votes');
+      await remove(votesRef);
+      
+      Swal.fire({
+        icon: 'success',
+        title: 'Berhasil',
+        text: 'Semua data votes telah dihapus.',
+      });
+    }
+  } catch (error) {
+    console.error('Gagal menghapus data:', error);
+    Swal.fire({
+      icon: 'error',
+      title: 'Gagal',
+      text: 'Terjadi kesalahan saat menghapus data.',
+    });
+  }
+};
 document.addEventListener('DOMContentLoaded', () => {
   initializeFirebase();
+  document.getElementById('get-votes').addEventListener('click', downloadVotesToExcel);
+  document.getElementById('remove-votes').addEventListener('click', window.deleteVotes);
 });
+

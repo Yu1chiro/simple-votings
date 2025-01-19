@@ -5,219 +5,246 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Form Presensi</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css"  rel="stylesheet" />
-</head>
-<body class="bg-gradient-to-r from-[#2B3784] to-[#4361EE] min-h-screen flex items-center justify-center">
-
-  <div id="modal-active" class="bg-white shadow-lg rounded-lg w-full max-w-md p-6 mx-3 my-3 xl:mt-4 xl:mx-0 xl:my-0">
-    <div class="flex justify-center mb-3">
-        <img src="/img/logo.webp" class="w-32 h-auto" alt="">
-    </div>
-    <h2 class="text-2xl font-bold text-center text-blue-700 mb-2">Presensi Pemira HMJ Bahasa Asing 2024</h2>
-    <h2 id="info" class="text-center text-[#fafafafa] bg-gradient-to-r from-[#C40C0C] to-[#B8001F] text-lg text-[#fafafafa] font-bold py-3 rounded-lg">Presensi di Tutup</h2>
-    <form id="form-presensi-active" class="space-y-4 hidden" style="display: none;">
-      <!-- Nama Lengkap -->
-      <div>
-        <label for="nama" class="block mb-2 text-sm font-semibold text-gray-900">Nama Lengkap</label>
-        <input
-          type="text"
-          id="nama"
-          name="nama"
-          placeholder="Masukkan nama lengkap"
-          required
-          class="bg-gray-50 border border-blue-700 text-gray-900 text-sm rounded-lg  block w-full p-2.5"
-        />
-      </div>
-
-      <!-- NIM -->
-      <div>
-        <label for="nim" class="block mb-2 text-sm font-semibold text-gray-900">NIM</label>
-        <input
-          type="number"
-          id="nim"
-          name="nim"
-          placeholder="Masukkan NIM"
-          required
-          class="bg-gray-50 border border-blue-700 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-        />
-      </div>
-
-      <!-- Semester -->
-      <div>
-        <label for="semester" class="block mb-2 text-sm font-semibold text-gray-900">Semester</label>
-        <input
-          type="number"
-          id="semester"
-          name="semester"
-          placeholder="Masukkan semester"
-          required
-          class="bg-gray-50 border border-blue-700 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-        />
-      </div>
-
-    <!-- Program Studi -->
-        <div>
-            <label for="prodi" class="block mb-2 text-sm font-semibold text-gray-900">Program Studi</label>
-            <select
-            id="prodi"
-            name="prodi"
-            required
-            class="bg-gray-50 border border-blue-700 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-            >
-            <option value="" disabled selected>Pilih Program Studi</option>
-            <option value="Pendidikan Bahasa Inggris">Pendidikan Bahasa Inggris</option>
-            <option value="Pendidikan Bahasa Jepang">Pendidikan Bahasa Jepang</option>
-            <option value="BIKSPRO">Bahasa Inggris Komunikasi Bisnis & Profesional</option>
-            </select>
-        </div>
-    <!-- Program Studi -->
-        <div>
-            <label for="sie" class="block mb-2 text-sm font-semibold text-gray-900">Sie: </label>
-            <select
-            id="sie"
-            name="sie"
-            required
-            class="bg-gray-50 border border-blue-700 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-            >
-            <option value="" disabled selected>Pilih Sie</option>
-            <option value="ketua-hmj">Ketua HMJ</option>
-            <option value="wakil-ketua">Wakil HMJ</option>
-            <option value="sekretaris-1">Sekretaris I</option>
-            <option value="sekretaris-2">Sekretaris II</option>
-            <option value="bendahara-1">Bendahara I</option>
-            <option value="bendahara-2">Bendahara II</option>
-            <option value="acara">Sie Acara</option>
-            <option value="pengarah">Sie Pengarah</option>
-            <option value="kesekretariatan">Sie Kesekretariatan</option>
-            <option value="humas">Sie Humas</option>
-            <option value="konsumsi">Sie Konsumsi</option>
-            <option value="kerohanian">Sie Kerohanian</option>
-            <option value="perdek">Sie Perlengkapan & Dekorasi</option>
-            <option value="pubdok">Sie Publikasi & Dokumentasi</option>
-            </select>
-        </div>
-        
-
-      <!-- Submit Button -->
-      <div>
-        <button
-          id="button-presensi"
-          type="submit"
-          class="w-full bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br text-white font-bold py-3 px-4 rounded-lg shadow  focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-offset-2"
-        >
-          Kirim Presensi
-        </button>
-      </div>
-    </form>
-  </div>
-  <!-- modal-late -->
-  <div id="modal-late" class="bg-white hidden shadow-lg rounded-lg w-full max-w-md p-6 mx-3 my-3 xl:mt-4 xl:mx-0 xl:my-0">
-    <div class="flex justify-center mb-3">
-        <img src="/img/logo.webp" class="w-32 h-auto" alt="">
-    </div>
-    <h2 class="text-2xl font-bold text-center text-blue-700 mb-3">Presensi Pemira HMJ Bahasa Asing 2024</h2>
-    <h2 class=" font-bold text-center text-[#fafafafa] bg-gradient-to-r from-[#C40C0C] to-[#B8001F] text-lg text-[#fafafafa] font-bold py-3 rounded-lg mb-5">Anda Terlambat ! </h2>
-    
-    <form id="form-presensi-late" class="space-y-4">
-      <!-- Nama Lengkap -->
-      <div>
-        <label for="nama" class="block mb-2 text-sm font-semibold text-gray-900">Nama Lengkap</label>
-        <input
-          type="text"
-          id="nama-late"
-          name="nama"
-          placeholder="Masukkan nama lengkap"
-          required
-          class="bg-gray-50 border border-red-700 text-gray-900 text-sm rounded-lg focus:outline outline-red-500 outline-2  block w-full p-2.5"
-        />
-      </div>
-      <!-- NIM -->
-      <div>
-        <label for="nim" class="block mb-2 text-sm font-semibold text-gray-900">NIM</label>
-        <input
-          type="number"
-          id="nim-late"
-          name="nim"
-          placeholder="Masukkan NIM"
-          required
-          class="bg-gray-50 border border-red-700 text-gray-900 text-sm rounded-lg focus:outline outline-red-500 outline-2 block w-full p-2.5"
-        />
-      </div>
-      <!-- Semester -->
-      <div>
-        <label for="semester" class="block mb-2 text-sm font-semibold text-gray-900">Semester</label>
-        <input
-          type="number"
-          id="semester-late"
-          name="semester"
-          placeholder="Masukkan semester"
-          required
-          class="bg-gray-50 border border-red-700 text-gray-900 text-sm rounded-lg focus:outline outline-red-500 outline-2 block w-full p-2.5"
-        />
-      </div>
-    <!-- Program Studi -->
-        <div>
-            <label for="prodi" class="block mb-2 text-sm font-semibold text-gray-900">Program Studi</label>
-            <select
-            id="prodi-late"
-            name="prodi"
-            required
-            class="bg-gray-50 border border-red-700 text-gray-900 text-sm rounded-lg focus:outline outline-red-500 outline-2 block w-full p-2.5"
-            >
-            <option value="" disabled selected>Pilih Program Studi</option>
-            <option value="Pendidikan Bahasa Inggris">Pendidikan Bahasa Inggris</option>
-            <option value="Pendidikan Bahasa Jepang">Pendidikan Bahasa Jepang</option>
-            <option value="BIKSPRO">Bahasa Inggris Komunikasi Bisnis & Profesional</option>
-            </select>
-        </div>
-    <!-- Program Studi -->
-        <div>
-            <label for="sie" class="block mb-2 text-sm font-semibold text-gray-900">Sie: </label>
-            <select
-            id="sie-late"
-            name="sie"
-            required
-            class="bg-gray-50 border border-red-700 text-gray-900 text-sm rounded-lg focus:outline outline-red-500 outline-2 block w-full p-2.5"
-            >
-            <option value="" disabled selected>Pilih Sie</option>
-            <option value="acara">Sie Acara</option>
-            <option value="pengarah">Sie Pengarah</option>
-            <option value="kesekretariatan">Sie Kesekretariatan</option>
-            <option value="humas">Sie Humas</option>
-            <option value="konsumsi">Sie Konsumsi</option>
-            <option value="kerohanian">Sie Kerohanian</option>
-            <option value="perdek">Sie Perlengkapan & Dekorasi</option>
-            <option value="pubdok">Sie Publikasi & Dokumentasi</option>
-            </select>
-        </div>
-    <!-- Pesan -->
-        <div>
-            <label for="message" class="block mb-2 text-sm font-medium text-gray-900">Alasan : </label>
-            <textarea
-            id="message-late"
-            name="message"
-            rows="4"
-            placeholder="Alasan Terlambat..."
-            required
-            class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-red-700 focus:outline outline-red-500 outline-2"
-            ></textarea>
-        </div>
+    <!-- google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
   
+  <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css"  rel="stylesheet" />
+  <script defer type="module" src="/Dashboard/serviceJS/present.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script defer src="blocked.js"></script>
+  <style>
+    @font-face {
+    font-family: 'Upheaval';
+    src: url('/upheavtt.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+      }
+   .font-custom {
+    font-family: 'Upheaval', sans-serif!important;
+   }
+   h2 {
+    font-family: "Poppins", serif!important;
 
-      <!-- Submit Button -->
-      <div>
-        <button
-          id="button-late"
-          type="submit"
-          class="w-full bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br text-white font-bold py-3 px-4 rounded-lg shadow  focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-offset-2"
-        >
-          Kirim Presensi
-        </button>
-      </div>
-    </form>
-  </div>
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script type="module" src="/Dashboard/serviceJS/present.js"></script>
+}
+      #content {
+      display: none; /* Default hidden */
+    }
+  </style>
+
+</head>
+<body class="bg-[url('/img/pixel.jpg')] bg-cover bg-no-repeat object-cover min-h-screen flex items-center justify-center">
+ <h1 id="set-block" class="font-custom text-center text-2xl font-normal text-yellow-500">Presensi Tidak Dapat di Akses ! <br> Silahkan gunakan Handphone </h1>
+  <div id="content" class="me-5 xl:me-0">
+   <div id="modal-active" class="bg-white shadow-lg rounded-lg w-full max-w-md p-6 mx-3 my-3 xl:mt-4 xl:mx-0 xl:my-0">
+     <div class="flex justify-center mb-3">
+         <img src="/img/logo.webp" class="w-32 h-auto" alt="">
+     </div>
+     <h2 class="text-2xl font-custom font-normal text-center text-blue-700 mb-2">Presensi Pemira HMJ Bahasa Asing 2024</h2>
+     <h2 id="info" class="text-center text-[#fafafafa] bg-gradient-to-r from-[#C40C0C] to-[#B8001F] text-lg text-[#fafafafa] font-bold py-3 rounded-lg">Presensi di Tutup</h2>
+     <form id="form-presensi-active" class="space-y-4 hidden" style="display: none;">
+       <!-- Nama Lengkap -->
+       <div>
+         <label for="nama" class="block mb-2 text-sm font-semibold text-gray-900">Nama Lengkap</label>
+         <input
+           type="text"
+           id="nama"
+           name="nama"
+           placeholder="Masukkan nama lengkap"
+           required
+           class="bg-gray-50 border border-blue-700 text-gray-900 text-sm rounded-lg  block w-full p-2.5"
+         />
+       </div>
+ 
+       <!-- NIM -->
+       <div>
+         <label for="nim" class="block mb-2 text-sm font-semibold text-gray-900">NIM</label>
+         <input
+           type="number"
+           id="nim"
+           name="nim"
+           placeholder="Masukkan NIM"
+           required
+           class="bg-gray-50 border border-blue-700 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+         />
+       </div>
+ 
+       <!-- Semester -->
+       <div>
+         <label for="semester" class="block mb-2 text-sm font-semibold text-gray-900">Semester</label>
+         <input
+           type="number"
+           id="semester"
+           name="semester"
+           placeholder="Masukkan semester"
+           required
+           class="bg-gray-50 border border-blue-700 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+         />
+       </div>
+ 
+     <!-- Program Studi -->
+         <div>
+             <label for="prodi" class="block mb-2 text-sm font-semibold text-gray-900">Program Studi</label>
+             <select
+             id="prodi"
+             name="prodi"
+             required
+             class="bg-gray-50 border border-blue-700 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+             >
+             <option value="" disabled selected>Pilih Program Studi</option>
+             <option value="Pendidikan Bahasa Inggris">Pendidikan Bahasa Inggris</option>
+             <option value="Pendidikan Bahasa Jepang">Pendidikan Bahasa Jepang</option>
+             <option value="BIKSPRO">Bahasa Inggris Komunikasi Bisnis & Profesional</option>
+             </select>
+         </div>
+     <!-- Program Studi -->
+         <div>
+             <label for="sie" class="block mb-2 text-sm font-semibold text-gray-900">Sie: </label>
+             <select
+             id="sie"
+             name="sie"
+             required
+             class="bg-gray-50 border border-blue-700 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+             >
+             <option value="" disabled selected>Pilih Sie</option>
+             <option value="ketua-hmj">Ketua HMJ</option>
+             <option value="wakil-ketua">Wakil HMJ</option>
+             <option value="sekretaris-1">Sekretaris I</option>
+             <option value="sekretaris-2">Sekretaris II</option>
+             <option value="bendahara-1">Bendahara I</option>
+             <option value="bendahara-2">Bendahara II</option>
+             <option value="acara">Sie Acara</option>
+             <option value="pengarah">Sie Pengarah</option>
+             <option value="kesekretariatan">Sie Kesekretariatan</option>
+             <option value="humas">Sie Humas</option>
+             <option value="konsumsi">Sie Konsumsi</option>
+             <option value="kerohanian">Sie Kerohanian</option>
+             <option value="perdek">Sie Perlengkapan & Dekorasi</option>
+             <option value="pubdok">Sie Publikasi & Dokumentasi</option>
+             </select>
+         </div>
+         
+ 
+       <!-- Submit Button -->
+       <div>
+         <button
+           id="button-presensi"
+           type="submit"
+           class="w-full bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br text-white font-bold py-3 px-4 rounded-lg shadow  focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-offset-2"
+         >
+           Kirim Presensi
+         </button>
+       </div>
+     </form>
+   </div>
+   <!-- modal-late -->
+   <div id="modal-late" class="bg-white hidden shadow-lg rounded-lg w-full max-w-md p-6 mx-3 my-3 xl:mt-4 xl:mx-0 xl:my-0">
+     <div class="flex justify-center mb-3">
+         <img src="/img/logo.webp" class="w-32 h-auto" alt="">
+     </div>
+     <h2 class="text-2xl font-bold text-center text-blue-700 mb-3">Presensi Pemira HMJ Bahasa Asing 2024</h2>
+     <h2 class=" font-bold text-center text-[#fafafafa] bg-gradient-to-r from-[#C40C0C] to-[#B8001F] text-lg text-[#fafafafa] font-bold py-3 rounded-lg mb-5">Anda Terlambat ! </h2>
+     
+     <form id="form-presensi-late" class="space-y-4">
+       <!-- Nama Lengkap -->
+       <div>
+         <label for="nama" class="block mb-2 text-sm font-semibold text-gray-900">Nama Lengkap</label>
+         <input
+           type="text"
+           id="nama-late"
+           name="nama"
+           placeholder="Masukkan nama lengkap"
+           required
+           class="bg-gray-50 border border-red-700 text-gray-900 text-sm rounded-lg focus:outline outline-red-500 outline-2  block w-full p-2.5"
+         />
+       </div>
+       <!-- NIM -->
+       <div>
+         <label for="nim" class="block mb-2 text-sm font-semibold text-gray-900">NIM</label>
+         <input
+           type="number"
+           id="nim-late"
+           name="nim"
+           placeholder="Masukkan NIM"
+           required
+           class="bg-gray-50 border border-red-700 text-gray-900 text-sm rounded-lg focus:outline outline-red-500 outline-2 block w-full p-2.5"
+         />
+       </div>
+       <!-- Semester -->
+       <div>
+         <label for="semester" class="block mb-2 text-sm font-semibold text-gray-900">Semester</label>
+         <input
+           type="number"
+           id="semester-late"
+           name="semester"
+           placeholder="Masukkan semester"
+           required
+           class="bg-gray-50 border border-red-700 text-gray-900 text-sm rounded-lg focus:outline outline-red-500 outline-2 block w-full p-2.5"
+         />
+       </div>
+     <!-- Program Studi -->
+         <div>
+             <label for="prodi" class="block mb-2 text-sm font-semibold text-gray-900">Program Studi</label>
+             <select
+             id="prodi-late"
+             name="prodi"
+             required
+             class="bg-gray-50 border border-red-700 text-gray-900 text-sm rounded-lg focus:outline outline-red-500 outline-2 block w-full p-2.5"
+             >
+             <option value="" disabled selected>Pilih Program Studi</option>
+             <option value="Pendidikan Bahasa Inggris">Pendidikan Bahasa Inggris</option>
+             <option value="Pendidikan Bahasa Jepang">Pendidikan Bahasa Jepang</option>
+             <option value="BIKSPRO">Bahasa Inggris Komunikasi Bisnis & Profesional</option>
+             </select>
+         </div>
+     <!-- Program Studi -->
+         <div>
+             <label for="sie" class="block mb-2 text-sm font-semibold text-gray-900">Sie: </label>
+             <select
+             id="sie-late"
+             name="sie"
+             required
+             class="bg-gray-50 border border-red-700 text-gray-900 text-sm rounded-lg focus:outline outline-red-500 outline-2 block w-full p-2.5"
+             >
+             <option value="" disabled selected>Pilih Sie</option>
+             <option value="acara">Sie Acara</option>
+             <option value="pengarah">Sie Pengarah</option>
+             <option value="kesekretariatan">Sie Kesekretariatan</option>
+             <option value="humas">Sie Humas</option>
+             <option value="konsumsi">Sie Konsumsi</option>
+             <option value="kerohanian">Sie Kerohanian</option>
+             <option value="perdek">Sie Perlengkapan & Dekorasi</option>
+             <option value="pubdok">Sie Publikasi & Dokumentasi</option>
+             </select>
+         </div>
+     <!-- Pesan -->
+         <div>
+             <label for="message" class="block mb-2 text-sm font-medium text-gray-900">Alasan : </label>
+             <textarea
+             id="message-late"
+             name="message"
+             rows="4"
+             placeholder="Alasan Terlambat..."
+             required
+             class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-red-700 focus:outline outline-red-500 outline-2"
+             ></textarea>
+         </div>
+   
+ 
+       <!-- Submit Button -->
+       <div>
+         <button
+           id="button-late"
+           type="submit"
+           class="w-full bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br text-white font-bold py-3 px-4 rounded-lg shadow  focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-offset-2"
+         >
+           Kirim Presensi
+         </button>
+       </div>
+     </form>
+   </div>
+ </div>
   <!-- <script type="module" src="/Dashboard/serviceJS/time.js"></script> -->
 
 

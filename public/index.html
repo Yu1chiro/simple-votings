@@ -4,33 +4,35 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>E-Voting PEMIRA HMJ</title>
+  <link rel="shortcut icon" href="/img/logo.webp" type="image/x-icon">
   <!-- google fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="shortcut icon" href="/img/logo.webp" type="image/x-icon">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="index.css">
   <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css"  rel="stylesheet" />
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2"></script>
+  <script defer src="/InterfaceJS/lazy.js"></script>
+  <script defer type="module" src="/InterfaceJS/main.js"></script>
+  <script async src="https://cdn.jsdelivr.net/npm/sweetalert2"></script>
 
 </head>
-<body class="bg-[url('/img/pixel.jpg')] bg-cover bg-no-repeat">
+<body class="lazy-bg bg-cover bg-no-repeat" data-bg="/img/pixel.jpg">
   <!-- Navbar -->
   <nav class="bg-[#0A3981] border-none shadow-lg">
     <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
       <a href="" class="flex items-center space-x-3 rtl:space-x-reverse">
-          <img src="/img/logo.webp" class="h-8" alt="Flowbite Logo" />
-          <span class="self-center text-lg font-semibold whitespace-nowrap text-[#FAFAFA] font-custom">HMJ Bahasa Asing</span>
+          <img data-src="/img/logo.webp" class="h-8 lazy" alt="Flowbite Logo" />
+          <span class="self-center text-lg font-normal whitespace-nowrap text-[#FAFAFA] font-custom">HMJ Bahasa Asing</span>
       </a>
       <button data-collapse-toggle="navbar-default" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-[#FAFAFA] rounded-lg md:hidden  focus:outline-none focus:ring-2 " aria-controls="navbar-default" aria-expanded="false">
-         <img src="/img/bar.webp" class="shadow-lg" width="50px" height="auto" alt="">
+         <img data-src="/img/bar.webp" class="shadow-lg lazy" width="50px" height="auto" alt="">
       </button>
       <div class="hidden w-full md:block md:w-auto" id="navbar-default">
         <ul class="font-medium flex flex-col p-4 md:p-0 mt-4 border-none rounded-lg bg-transparent md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0">
           <li>
             <a href="#faq" class="block py-2 px-3 flex items-center text-semibold  text-[#FAFAFA] rounded  md:hover:bg-transparent md:border-0 md:hover:text-yellow-500 md:p-0">
-                <img src="/img/faq.png" width="30px" height="auto" class="me-3" alt="">
+                <img data-src="/img/faq.png" width="30px" height="auto" class="me-3 lazy" alt="">
                 FAQ
             </a>
           </li>
@@ -42,18 +44,18 @@
   
 
  <!-- Hero Section -->
- <section class="relative text-[#FAFAFA] h-screen flex items-center justify-center bg-cover bg-center bg-[url('/img/back.jpeg')]">
+ <section class="relative text-[#FAFAFA] h-screen flex items-center justify-center bg-cover bg-center lazy-bg" data-bg="/img/back.jpeg">
   <div class="relative z-10 container mx-auto px-4 sm:px-6">
     <div class="grid items-center md:grid-cols-2 h-full">
       <!-- Teks -->
       <div class="order-2 md:order-1 text-center md:text-left -mt-52 sm:-mt-40 md:-mt-24">
-        <h1 class="text-2xl sm:text-3xl font-bold mb-3 leading-tight">
+        <h1 class="text-2xl font-normal sm:text-3xl mb-3 leading-tight">
           SELAMAT DATANG Di E-Voting PEMILIHAN RAYA HMJ BAHASA ASING 2025
         </h1>
         <p class="text-base sm:text-lg md:text-xl mb-6 leading-relaxed">
           Jadikan suara mu sebagai langkah berarti dalam membangun HMJ yang lebih inovatif dan inspiratif! Pilih dengan percaya diri melalui e-voting yang dirancang untuk kemudahan, kecepatan, dan keamanan.
         </p>
-        <a href="#favorite-candidates" class="inline-block font-custom w-full sm:w-auto bg-gradient-to-r from-[#3b82f6] to-[#16A34A] animate-gradient-bg text-[#FAFAFA] font-semibold px-6 py-3 rounded-lg shadow-md hover:bg-green-700 hover:text-[#FAFAFA] transition text-center">
+        <a href="#favorite-candidates" class="inline-block font-custom w-full sm:w-auto bg-gradient-to-r from-[#3b82f6] to-[#16A34A] animate-gradient-bg text-[#FAFAFA] font-normal px-6 py-3 rounded-lg shadow-md hover:bg-green-700 hover:text-[#FAFAFA] transition text-center">
           Start Vote 
         </a>
       </div>
@@ -67,21 +69,21 @@
   <!-- Why E-Voting Section -->
   <section id="features" class="py-16 text-[#FAFAFA]">
     <div class="container mx-auto px-6 text-center">
-      <h2 class="text-2xl xl:text-4xl lg:text-4xl font-bold mb-8 font-custom">Mengapa Harus E-Voting?</h2>
+      <h2 class="text-2xl xl:text-4xl lg:text-4xl font-normal mb-8 font-custom">Mengapa Harus E-Voting?</h2>
       <div class="grid md:grid-cols-3 gap-8">
         <div class="bg-[linear-gradient(120deg,#0A3981_64%,#020C1B_100%)] p-6 rounded-lg shadow-md">
-          <img src="/img/time.webp" alt="Fast" width="100px" height="auto" class="mx-auto mb-4">
-          <h3 class="text-xl font-semibold font-custom mb-2">Cepat dan Praktis</h3>
+          <img data-src="/img/time.webp" alt="Fast" width="100px" height="auto" class="lazy mx-auto mb-4">
+          <h3 class="text-xl font-normal font-custom mb-2">Cepat dan Praktis</h3>
           <p class="text-[#FAFAFA] font-normal">Hemat waktu dengan voting yang hanya memerlukan beberapa klik.</p>
         </div>
         <div class="bg-[linear-gradient(120deg,#0A3981_64%,#020C1B_100%)] p-6 rounded-lg shadow-md">
-          <img src="/img/secure.webp" alt="Secure" width="100px" height="auto" class="mx-auto mb-4">
-          <h3 class="text-xl font-semibold font-custom mb-2">Aman dan Terpercaya</h3>
+          <img data-src="/img/secure.webp" alt="Secure" width="100px" height="auto" class="lazy mx-auto mb-4">
+          <h3 class="text-xl font-normal font-custom mb-2">Aman dan Terpercaya</h3>
           <p class="text-[#FAFAFA] font-normal">Data Anda terlindungi, dan hasilnya dapat dipercaya.</p>
         </div>
         <div class="bg-[linear-gradient(120deg,#0A3981_64%,#020C1B_100%)] p-6 rounded-lg shadow-md">
-          <img src="/img/modern.webp" alt="Modern" width="100px" height="auto" class="mx-auto mb-4">
-          <h3 class="text-xl font-semibold font-custom mb-2">Efisien & Modern</h3>
+          <img data-src="/img/modern.webp" alt="Modern" width="100px" height="auto" class="lazy mx-auto mb-4">
+          <h3 class="text-xl font-normal font-custom mb-2">Efisien & Modern</h3>
           <p class="text-[#FAFAFA] font-normal">Praktis dan modern untuk kebutuhan mahasiswa.</p>
         </div>
       </div>
@@ -91,7 +93,7 @@
   <!-- Candidates Section -->
   <section class="py-16 text-[#FAFAFA]">
     <div class="container mx-auto px-6 text-center">
-      <h2 id="favorite-candidates" class="text-2xl text-transparent bg-clip-text bg-gradient-to-r from-[hsl(42,85%,65%)] to-[hsl(42,80%,85%)] md:text-4xl font-bold mb-8 font-custom">Choose Your Favorite</h2>
+      <h2 id="favorite-candidates" class="text-2xl text-transparent bg-clip-text bg-gradient-to-r from-[hsl(42,85%,65%)] to-[hsl(42,80%,85%)] md:text-4xl font-normal mb-8 font-custom">Choose Your Favorite</h2>
       <p class="font-semibold loading-state">Tunggu bentar bro...</p>
       <div id="candidates" class="grid md:grid-cols-2 gap-8">
        <!-- Javascript only -->
@@ -317,12 +319,11 @@
     <div class="container mx-auto px-6 text-center">
         <p class="text-lg">
           &copy; 2024 HMJ Bahasa Asing ||  Dev by 
-          <a href="https://instagram.com/hinaata_03" class="hover:text-xl hover:font-bold hover:text-yellow-500"><img src="/img/dev.webp" alt="Dev by Hera" class="w-10 h-10 rounded-full inline-block ml-2"> 日向</a>
+          <a href="https://instagram.com/hinaata_03" class="hover:text-xl hover:font-bold hover:text-yellow-500"><img data-src="/img/dev.webp" alt="Dev by Hera" class="w-10 h-10 lazy rounded-full inline-block ml-2"> 日向</a>
         </p>
       </div>
       
   </footer>
   <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
-  <script type="module" src="/InterfaceJS/main.js"></script>
 </body>
 </html>

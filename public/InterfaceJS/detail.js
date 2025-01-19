@@ -105,7 +105,7 @@ function perbaruiTampilanKandidat(kandidat, database) {
             </div>
           </div>
           <div class="flex justify-center">
-            <button id="vote-button" class="bg-gradient-to-r from-[#3b82f6] to-[#16A34A] font-custom animate-gradient-bg mt-3 text-[#FAFAFA] font-semibold  px-6 py-3 rounded-lg shadow-md hover:bg-green-700 hover:text-[#FAFAFA] transition">
+            <button id="vote-button" class="bg-gradient-to-r from-[#3b82f6] to-[#16A34A] font-custom animate-gradient-bg mt-3 text-[#FAFAFA] font-normal  px-6 py-3 rounded-lg shadow-md hover:bg-green-700 hover:text-[#FAFAFA] transition">
               <img src="/img/note-ico.png" class="rounded-lg inline-block" width="25px" height="auto" alt="">
               Vote Now
             </button>
@@ -204,12 +204,12 @@ function perbaruiTampilanKandidat(kandidat, database) {
         <div class="flex justify-center">
         <img src="/img/logo.webp" style="width: 60px; height: 60px;" alt="Loading" class="mb-3 h-auto">
         </div>
-        <h2 class="font-semibold">Silahkan Masukkan NIM :</h2>
+        <h2 class="font-semibold">Masukkan NIM :</h2>
         `,
-        input: 'text',
-        inputPlaceholder: 'Masukkan NIM Anda',
+        input: 'number',
+        inputPlaceholder: 'NIM Mahasiswa',
         showCancelButton: true,
-        confirmButtonText: 'Submit',
+        confirmButtonText: 'Verifikasi',
         confirmButtonColor: '#16a34a',
         cancelButtonText: 'Batal',
         inputValidator: (value) => {
@@ -236,7 +236,7 @@ function perbaruiTampilanKandidat(kandidat, database) {
             <div class="flex justify-center">
             <img src="/img/logo.webp" style="width: 60px; height: 60px;" alt="Loading" class="mb-3 h-auto">
             </div>
-            <h2 class="font-semibold text-green-500">The system is checking your NIM</h2>
+            <h2 class="font-semibold text-green-500">System checking your NIM</h2>
           `,
             allowOutsideClick: false,
             allowEscapeKey: false,
@@ -369,7 +369,7 @@ function perbaruiTampilanKandidat(kandidat, database) {
             </div>
     
             <div class="mb-6">
-                <label for="nim" class="block text-start text-lg font-medium text-gray-700">NIM</label>
+                <label for="nim" class="block text-start text-lg font-medium text-gray-700">Nim Mahasiswa</label>
                 <input
                     id="nim"
                     type="text"
@@ -380,12 +380,12 @@ function perbaruiTampilanKandidat(kandidat, database) {
             </div>
     
             <div class="mb-6">
-                <label for="email-undiksha" class="block text-start text-lg font-medium text-gray-700">Masukkan Email</label>
+                <label for="email-undiksha" class="block text-start text-lg font-medium text-gray-700">Email</label>
                 <input
                     id="email-undiksha"
                     type="email"
                     class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-lg p-3"
-                    placeholder="Email Undiksha"
+                    placeholder="Masukkan email student undiksha"
                 />
             </div>
     
@@ -617,21 +617,18 @@ function perbaruiTampilanKandidat(kandidat, database) {
                                         <p style="color: #333; font-weight: bold;">Nama:</p>
                                         <p style="color: #333;">${nama}</p>
                                         
-                                        <p style="color: #333; font-weight: bold;">NIM:</p>
+                                        <p style="color: #333; font-weight: bold;">Nim:</p>
                                         <p style="color: #333;">${nim}</p>
-                    
-                                        <p style="color: #333; font-weight: bold;">KTM:</p>
-                                        <div style="display: flex; align-items: center;">
-                                            <img src="${thumbnail}" alt="${thumbnail}" width="70" height="auto" class="rounded-lg object-cover" style="margin-right: 16px; margin-top: 4px; margin-bottom: 4px;">
-                                        </div>
+                                        <p style="color: #333; font-weight: bold;">Email:</p>
+                                        <p style="color: #333;">${emailUndiksha}</p>
                     
                                         <p style="color: #333; font-weight: bold;">Semester:</p>
                                         <p style="color: #333;">${semester}</p>
                                         
-                                        <p style="color: #333; font-weight: bold;">Program Studi:</p>
+                                        <p style="color: #333; font-weight: bold;">Prodi:</p>
                                         <p style="color: #333;">${prodi}</p>
                     
-                                        <p style="color: #333; font-weight: bold;">Voted:</p>
+                                        <p style="color: #333; font-weight: bold;">Paslon:</p>
                                         <p style="color: #333; margin-right: 12px;">${candidateName}</p>
                     
                                         <p style="color: #333; font-weight: bold;">Status:</p>

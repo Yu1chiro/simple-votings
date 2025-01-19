@@ -128,7 +128,7 @@ async function handleDeleteCountdown() {
             formPresensiActive.classList.add('hidden');
         }
 
-        Swal.fire('Berhasil', 'Countdown telah dihapus', 'success');
+        Swal.fire('Presensi Ditutup', 'success');
     } catch (error) {
         console.error('Error deleting countdown:', error);
         Swal.fire('Error', 'Gagal menghapus countdown', 'error');

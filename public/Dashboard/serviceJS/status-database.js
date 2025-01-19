@@ -84,11 +84,11 @@ function updateMonitoringUI(size, percentage) {
 
     const getStatusConfig = (percentage) => {
         if (percentage >= MONITORING_CONFIG.WARNING_THRESHOLD) {
-            return { class: 'bg-red-100 text-red-800', text: 'Kritis', barColor: 'bg-red-500' };
+            return { class: 'bg-red-100 text-red-800', text: 'Database penuh hanya tersisa beberapa mb lagi ', barColor: 'bg-red-500' };
         } else if (percentage >= MONITORING_CONFIG.ATTENTION_THRESHOLD) {
-            return { class: 'bg-yellow-100 text-yellow-800', text: 'Perhatian', barColor: 'bg-yellow-500' };
+            return { class: 'bg-yellow-100 text-yellow-800', text: 'Perhatian Database hampir penuh !', barColor: 'bg-yellow-500' };
         }
-        return { class: 'bg-green-100 text-green-800', text: 'Normal', barColor: 'bg-green-500' };
+        return { class: 'bg-green-100 text-green-800', text: 'Normal', barColor: 'bg-gradient-to-r from-[#3b82f6] to-[#16A34A] animated' };
     };
 
     const status = getStatusConfig(percentage);
@@ -107,8 +107,8 @@ function updateMonitoringUI(size, percentage) {
                         <span class="text-sm text-gray-600">Penggunaan Storage</span>
                         <span class="text-sm font-medium">${percentage.toFixed(1)}%</span>
                     </div>
-                    <div class="w-full bg-gray-200 rounded-full h-2">
-                        <div class="h-2 rounded-full ${status.barColor} transition-all duration-300" 
+                    <div class="w-full bg-gray-200 h-5 rounded-full h-2">
+                        <div class="h-2 rounded-full h-5 ${status.barColor} transition-all duration-300" 
                              style="width: ${percentage}%"></div>
                     </div>
                 </div>

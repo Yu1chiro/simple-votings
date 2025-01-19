@@ -6,6 +6,8 @@ import { getDatabase, ref, set, get, remove, onValue } from 'https://www.gstatic
 // Global variables
 let database;
 let countdownInterval;
+let lastTimeUpdate = null;
+let timeChangeListener = null;
 
 // Initialize Firebase and setup system
 async function initializeSystem() {
@@ -13,6 +15,7 @@ async function initializeSystem() {
         const { database: db } = await initializeFirebase();
         database = db;
         await setupEventListeners();
+        setupTimeChangeDetection();
         await setupInitialState();
         await checkPresenceStatus(); // Tambahan untuk memeriksa status presensi
     } catch (error) {
@@ -24,7 +27,44 @@ async function initializeSystem() {
         });
     }
 }
+function setupTimeChangeDetection() {
+    if (timeChangeListener) {
+        timeChangeListener(); // Bersihkan listener yang ada jika ada
+    }
 
+    const timeRef = ref(database, 'time');
+    timeChangeListener = onValue(timeRef, (snapshot) => {
+        const newTimeData = snapshot.val();
+        
+        // Cek jika ini adalah update pertama
+        if (lastTimeUpdate === null) {
+            lastTimeUpdate = newTimeData;
+            return;
+        }
+
+        // Bandingkan dengan data sebelumnya
+        const hasTimeChanged = JSON.stringify(lastTimeUpdate) !== JSON.stringify(newTimeData);
+        
+        if (hasTimeChanged) {
+            // Tunggu sebentar sebelum refresh untuk memastikan data tersimpan
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000);
+        }
+
+        lastTimeUpdate = newTimeData;
+    }, {
+        // Gunakan ini untuk mengurangi beban server
+        onlyOnce: false
+    });
+}
+
+// Tambahkan cleanup saat komponen unmount
+window.addEventListener('beforeunload', () => {
+    if (timeChangeListener) {
+        timeChangeListener();
+    }
+});
 // Firebase initialization
 async function initializeFirebase() {
     try {
