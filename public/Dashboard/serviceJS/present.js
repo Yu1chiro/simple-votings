@@ -459,21 +459,31 @@ async function handleActiveSubmission(e) {
         if (!attendanceStatus.locationValid) {
             const confirmSubmit = await Swal.fire({
                 html: `
-                <div class="text-center mb-4">
-                    <img src="/img/logo.webp" alt="Logo" class="mb-4 h-16 w-16 mx-auto">
-                    <p class="text-lg font-bold text-red-500">
-                        Anda berada di luar area presensi ! 
-                        <span class="text-lg font-bold text-red-500">(${attendanceStatus.distance.toFixed(2)} km) dari lokasi</span> 
-                    </p>
-                    <p class="text-lg font-semibold text-gray-600 mb-6">
-                        Data akan tercatat sebagai <span class="text-lg font-bold text-red-500">Tidak Hadir</span> dalam sistem konfirmasi?
-                        Jika anda tidak ingin menkonfirmasi, namun anda sudh berada di lokasi saat ini, anda bisa menghapus data cookie dan me refresh halaman ini agar sistem dapat mendapatkan lokasi terbaru anda
-                    </p>
-                </div>
+                <div class="text-center mb-8 px-4 py-6 bg-white border border-gray-300 rounded-lg shadow-md max-w-lg mx-auto">
+    <img src="/img/logo.webp" alt="Logo" class="mb-4 h-16 w-16 mx-auto">
+    
+    <p class="text-xl font-semibold text-red-600 mb-2">
+        Anda berada di luar area presensi! 
+        <span class="text-lg font-medium text-gray-700">(${attendanceStatus.distance.toFixed(2)} km) dari lokasi</span> 
+    </p>
+    
+    <p class="text-base font-medium text-gray-600 mb-6">
+        Data Anda akan tercatat sebagai 
+        <span class="font-semibold text-red-600">Tidak Hadir</span> dalam sistem, lanjutkan?.
+        Jika Anda merasa sudah berada di lokasi yang benar, Anda dapat menghapus data cookie dan me-refresh halaman ini agar sistem dapat mendapatkan lokasi terbaru Anda.
+    </p>
+    
+    <button 
+        class="mt-4 px-6 py-2 bg-blue-600 text-white font-semibold rounded-full shadow hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500"
+        onclick="window.location.reload();">
+        Refresh Lokasi
+    </button>
+</div>
+
 
                 `,
                 showCancelButton: true,
-                confirmButtonText: 'Konfirmasi',
+                confirmButtonText: 'Lanjutkan',
                 cancelButtonText: 'Batal',
                 customClass: {
                     confirmButton: 'bg-green-500',
