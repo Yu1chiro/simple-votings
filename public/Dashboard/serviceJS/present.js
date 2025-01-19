@@ -474,7 +474,11 @@ async function handleActiveSubmission(e) {
                 `,
                 showCancelButton: true,
                 confirmButtonText: 'Konfirmasi',
-                cancelButtonText: 'Batal'
+                cancelButtonText: 'Batal',
+                customClass: {
+                    confirmButton: 'bg-green-500',
+                    cancelButton: 'bg-red-500'
+                }
             });
 
             if (!confirmSubmit.isConfirmed) return;
