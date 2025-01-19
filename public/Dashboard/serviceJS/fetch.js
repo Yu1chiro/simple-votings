@@ -95,7 +95,6 @@ function renderTable(data, database) {
         <td class="text-center py-3 px-4">${item.nim || '-'}</td>
         <td class="text-center py-3 px-4">${item.semester || '-'}</td>
         <td class="text-center py-3 px-4">${item.prodi || '-'}</td>
-        <td class="text-center py-3 px-4">${item.sie || '-'}</td>
         <td class="text-center py-3 px-4 ${statusColor}">${item.status || '-'}</td>
         <td class="text-center py-3 px-4">${locationLink}</td>
         <td class="text-center py-3 px-4">
