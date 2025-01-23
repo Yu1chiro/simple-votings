@@ -1,3 +1,20 @@
+@keyframes show {
+  from {
+    opacity:0;
+    scale:0.8;
+  }
+  to {
+    opacity:1;
+    scale:1;
+  }
+
+}
+.animated {
+  animation: show linear;
+  animation-timeline:view();
+  animation-range:entry 25% cover 50%;
+}
+
 @font-face {
     font-family: 'Upheaval';
     src: url('/upheavtt.ttf') format('truetype');
@@ -9,7 +26,6 @@ input[type="number"] {
     -webkit-appearance: none;    /* Untuk Webkit-based browsers (Chrome, Safari) */
     appearance: none;            /* Standar CSS untuk browser modern */
   }
-  
   input[type="number"]::-webkit-outer-spin-button,
   input[type="number"]::-webkit-inner-spin-button {
     -webkit-appearance: none;
@@ -82,3 +98,24 @@ button {
     background-size: 200% 200%;
     animation: gradientCard 1.5s ease infinite;
   }
+  @keyframes subtleBorderAnimation {
+    0% {
+      box-shadow: 0 0 10px 3px rgba(186, 104, 200, 0.7); /* Light Purple */
+    }
+    50% {
+      box-shadow: 0 0 10px 3px rgba(77, 182, 172, 0.7); /* Green Teal */
+    }
+    100% {
+      box-shadow: 0 0 10px 3px rgba(186, 104, 200, 0.7); /* Kembali ke Light Purple */
+    }
+  }
+  
+  .voting-btn {
+    border: none!important; /* Hilangkan border */
+    color: #FFFFFF; /* Warna teks putih */
+    font-size: 16px; /* Ukuran teks */
+    font-weight: bold; /* Teks tebal */
+    cursor: pointer; /* Kursor pointer */
+    animation: subtleBorderAnimation 2s infinite; /* Animasi halus pada shadow */
+  }
+  

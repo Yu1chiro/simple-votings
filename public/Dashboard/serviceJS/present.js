@@ -459,26 +459,19 @@ async function handleActiveSubmission(e) {
         if (!attendanceStatus.locationValid) {
             const confirmSubmit = await Swal.fire({
                 html: `
-                <div class="text-center mb-8 px-4 py-6 bg-white border border-gray-300 rounded-lg shadow-md max-w-lg mx-auto">
     <img src="/img/logo.webp" alt="Logo" class="mb-4 h-16 w-16 mx-auto">
     
     <p class="text-xl font-semibold text-red-600 mb-2">
-        Anda berada di luar area presensi! 
+        Anda Terdeteksi Diluar Lokasi! 
         <span class="text-lg font-medium text-gray-700">(${attendanceStatus.distance.toFixed(2)} km) dari lokasi</span> 
     </p>
     
     <p class="text-base font-medium text-gray-600 mb-6">
         Data Anda akan tercatat sebagai 
         <span class="font-semibold text-red-600">Tidak Hadir</span> dalam sistem, lanjutkan?.
-        Jika Anda merasa sudah berada di lokasi yang benar, Anda dapat menghapus data cookie dan me-refresh halaman ini agar sistem dapat mendapatkan lokasi terbaru Anda.
+        Jika Anda merasa sudah berada di sekitar kampus, Anda dapat menghapus data cookie dan me-refresh halaman ini agar sistem dapat mendapatkan lokasi terbaru Anda.
+        Jika masalah tetap sama segera laporkan ke Sie yg bersangkutan terimakasih.
     </p>
-    
-    <button 
-        class="mt-4 px-6 py-2 bg-blue-600 text-white font-semibold rounded-full shadow hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500"
-        onclick="window.location.reload();">
-        Refresh Lokasi
-    </button>
-</div>
 
 
                 `,
@@ -493,7 +486,13 @@ async function handleActiveSubmission(e) {
 
             if (!confirmSubmit.isConfirmed) return;
         }
-
+        const statusColor =
+          attendanceStatus.status === 'Hadir'
+          ? 'text-green-500' 
+          :attendanceStatus.status === 'Tidak Hadir'
+          ? 'text-red-500' 
+          : 'text-gray-500'; 
+  
         // Save data
         await saveActivePresence(form, position, attendanceStatus);
 
@@ -508,11 +507,15 @@ async function handleActiveSubmission(e) {
                         <img src="/img/logo.webp" style="width: 60px; height: 60px;" alt="Logo" class="mb-3 h-auto">
                     </div>
                     <h2 class="font-bold text-green-500 mb-2">Terkonfirmasi !</h2>
-                    <p class="text-lg font-bold">Status anda : <span class="text-lg font-bold text-red-500">${attendanceStatus.status}</span></p>
-                `,
+                    <p class="text-lg font-bold mb-5">Status anda : <span class="text-lg font-bold ${statusColor}">${attendanceStatus.status}</span></p>
+                    `,
                 showConfirmButton: true, // Optional: Display confirm button
-                confirmButtonText: 'OK',
-                confirmButtonColor: '#16a34a' // Optional: Customize confirm button text
+                confirmButtonText: 'Cek Presensi',
+                confirmButtonColor: '#16a34a', // Optional: Customize confirm button text
+                preConfirm: () => {
+                    // Redirect user to the URL when "OK" is clicked
+                    window.location.href = '/Panitia/Presensi/daftar-kehadiran.html';
+                }
             });
         }, 600); // Delay before success alert
         
@@ -595,7 +598,10 @@ async function handleLateSubmission(e) {
                 icon:'success',
                 html: `
                     <h2 class="font-bold text-green-500 mb-2">Terkirim !</h2>
-                    <h2 class="font-bold text-green-500 mb-2">Next time jangan telat lagi ya dek ya</h2>
+                    <h2 class="font-bold text-green-500 mb-5">Next time jangan telat lagi ya dek ya</h2>
+                     <a href="/Panitia/Presensi/daftar-kehadiran.html" class="text-white bg-gradient-to-r from-green-500 via-green-600 to-green-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-semibold rounded-lg text-sm px-5 py-2.5 text-center">
+                    Cek presensi
+                    </a>
                 `,
                 confirmButtonColor: '#16a34a',
                 showConfirmButton: true, // Optional: Display confirm button

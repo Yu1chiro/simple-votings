@@ -101,11 +101,11 @@ function perbaruiTampilanKandidat(kandidat, database) {
               </div>
             </div>
             <div class="bg-gray-200 rounded-lg mb-4">
-              <img src="${kandidat.thumbnail}" alt="${kandidat.name}" class="h-full w-auto object-cover rounded-lg">
+              <img style="max-width: 100%; height: auto; object-fit: cover;" src="${kandidat.thumbnail}" alt="${kandidat.name}" class="h-full w-auto object-cover rounded-lg">
             </div>
           </div>
           <div class="flex justify-center">
-            <button id="vote-button" class="bg-gradient-to-r from-[#3b82f6] to-[#16A34A] font-custom animate-gradient-bg mt-3 text-[#FAFAFA] font-normal  px-6 py-3 rounded-lg shadow-md hover:bg-green-700 hover:text-[#FAFAFA] transition">
+            <button id="vote-button" class="voting-btn bg-gradient-to-r from-[#3b82f6] to-[#16A34A] font-custom animate-gradient-bg mt-3 text-[#FAFAFA] font-normal  px-6 py-3 rounded-lg shadow-md hover:bg-green-700 hover:text-[#FAFAFA] transition">
               <img src="/img/note-ico.png" class="rounded-lg inline-block" width="25px" height="auto" alt="">
               Vote Now
             </button>

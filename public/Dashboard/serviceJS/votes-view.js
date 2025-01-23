@@ -89,21 +89,21 @@ window.viewVoteDetail = function (voteId) {
       Swal.fire({
         title: vote.nama,
         html: `
-  <div class="mb-4">
-    <p class="text-lg font-semibold"><strong>Nama:</strong> ${vote.nama}</p>
-    <p class="text-lg"><strong>Nim:</strong> ${vote.nim}</p>
-    <p class="text-lg"><strong>Email:</strong> ${vote.emailUndiksha}</p>
-    <p class="text-lg"><strong>Semester:</strong> ${vote.semester}</p>
-    <p class="text-lg"><strong>Prodi:</strong> ${vote.prodi}</p>
-    <p class="text-lg mb-3"><strong>Votes :</strong> ${vote.Namecandidate}</p>
-        <p class="text-lg"><strong>Prodi:</strong> ${vote.status} ✓</p>
-       <p class="font-semibold mb-5">KHS Mahasiswa:</p>
-                ${vote.thumbnail.startsWith('data:application/pdf') 
-                  ? createPDFLink(vote.thumbnail, 'View') 
-                  : `<a src="${vote.thumbnail}" class="text-white bg-green-500 py-2 px-2 shadow-lg" alt="">`
-                }
-  </div>
-
+         <div class="text-left">
+            <p class="text-lg mb-2"><strong>Nama:</strong> ${vote.nama}</p>
+            <p class="text-lg mb-2"><strong>NIM:</strong> ${vote.nim}</p>
+            <p class="text-lg mb-2"><strong>Email:</strong> ${vote.emailUndiksha}</p>
+            <p class="text-lg mb-2"><strong>Semester:</strong> ${vote.semester}</p>
+            <p class="text-lg mb-2"><strong>Prodi:</strong> ${vote.prodi}</p>
+            <p class="text-lg mb-2"><strong>Votes:</strong> ${vote.Namecandidate}</p>
+            <p class="text-lg mb-3"><strong>Status:</strong> ${vote.status}</p>
+            <p class="font-semibold mb-3"><strong>KHS Mahasiswa:</strong></p>
+            ${
+              vote.thumbnail.startsWith('data:application/pdf')
+                ? createPDFLink(vote.thumbnail, 'View')
+                : `<a href="${vote.thumbnail}" class="text-white bg-green-500 py-2 px-4 rounded-lg shadow-md hover:bg-green-600 transition duration-200" target="_blank" rel="noopener noreferrer">Lihat Thumbnail</a>`
+            }
+        </div>
         `,
         confirmButtonColor: '#ef4444',
         confirmButtonText: 'Close',

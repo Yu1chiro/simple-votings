@@ -92,7 +92,9 @@ function renderTable(data, database) {
       <tr>
         <td class="text-center py-3 px-4">${formattedTimestamp}</td>
         <td class="text-center py-3 px-4">${item.nama || '-'}</td>
-        <td class="text-center py-3 px-4">${item.nim || '-'}</td>
+         <td class="text-center py-3 px-4">
+            <a href="https://mahasiswa.undiksha.ac.id/${item.nim}" class="text-white bg-blue-500 rounded-lg px-2 py-1">${item.nim}</a>
+            </td>
         <td class="text-center py-3 px-4">${item.semester || '-'}</td>
         <td class="text-center py-3 px-4">${item.prodi || '-'}</td>
         <td class="text-center py-3 px-4 ${statusColor}">${item.status || '-'}</td>
