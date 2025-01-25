@@ -6,9 +6,7 @@ dotenv.config();
 const app = express();
 const __dirname = path.resolve();
 
-// Middleware to set cache control headers for all responses
 app.use((req, res, next) => {
-  // Disable caching for all routes
   res.set({
     'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
     'Pragma': 'no-cache',
@@ -18,7 +16,6 @@ app.use((req, res, next) => {
   next();
 });
 
-// Endpoint untuk memberikan konfigurasi Firebase secara langsung
 app.get('/firebase-config', (req, res) => {
   const firebaseConfig = {
     apiKey: process.env.FIREBASE_API_KEY,
@@ -33,7 +30,6 @@ app.get('/firebase-config', (req, res) => {
   res.json(firebaseConfig);
 });
 
-// Configure static file serving with cache control
 app.use(express.static(path.join(__dirname, 'public'), {
   etag: false,
   lastModified: false,

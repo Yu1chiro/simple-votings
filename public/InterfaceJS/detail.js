@@ -161,6 +161,7 @@ function perbaruiTampilanKandidat(kandidat, database) {
                       return undekshaEmailPattern.test(emailUndiksha);
                   };
                   
+                  //#################################################//
                     const validateNIMFormat = (nim) => {
                       // Check if NIM is exactly 10 digits
                       if (!/^\d{10}$/.test(nim)) {
@@ -174,21 +175,21 @@ function perbaruiTampilanKandidat(kandidat, database) {
                       const yearCode = nim.substring(0, 3);    // First 3 digits (221/231/241)
                       const majorCode = nim.substring(3, 6);   // Middle 3 digits (206/202/201)
                   
-                      // Validate year code
-                      const validYearCodes = ['221', '231', '241'];
+                      // Validate Year Code
+                      const validYearCodes = ['221', '225', '245', '235', '210', '211', '231', '241'];
                       if (!validYearCodes.includes(yearCode)) {
                           return {
                               isValid: false,
-                              message: 'Format tahun pada NIM tidak valid! (221/231/241)'
+                              message: 'Format tahun pada NIM tidak valid!'
                           };
                       }
                   
-                      // Validate major code
-                      const validMajorCodes = ['206', '202', '201'];
+                      // Validate Major Code
+                      const validMajorCodes = ['206', '204', '202', '201'];
                       if (!validMajorCodes.includes(majorCode)) {
                           return {
                               isValid: false,
-                              message: 'Kode jurusan pada NIM tidak valid! (206/202/201)'
+                              message: 'Kode jurusan pada NIM tidak valid!'
                           };
                       }
                   
@@ -197,7 +198,21 @@ function perbaruiTampilanKandidat(kandidat, database) {
                           message: 'NIM valid'
                       };
                   };
-
+            // Use this for urgent condition invalid nim inputed
+          //   const validateNIMFormat = (nim) => {
+          //     // Check if NIM is exactly 10 digits
+          //     if (!/^\d{10}$/.test(nim)) {
+          //         return {
+          //             isValid: false,
+          //             message: 'NIM harus terdiri dari 10 digit angka!'
+          //         };
+          //     }
+          
+          //     return {
+          //         isValid: true,
+          //         message: 'NIM valid'
+          //     };
+          // };
         if (!nimToCheck) {
         const { value: nimInput } = await Swal.fire({
         html: `
@@ -427,10 +442,10 @@ function perbaruiTampilanKandidat(kandidat, database) {
             </div>
         `,
         showCancelButton: true,
-        confirmButtonText: 'Kirim Vote Anda',
+        confirmButtonText: 'Kirim Vote',
         cancelButtonText: 'Batal',
         customClass: {
-            confirmButton: 'bg-blue-500'
+            confirmButton: 'green'
         },
         preConfirm: async () => {
             try {
@@ -455,7 +470,7 @@ function perbaruiTampilanKandidat(kandidat, database) {
                 }
     
                 if (!validateUndekshaEmail(emailUndiksha)) {
-                    Swal.showValidationMessage('Email harus menggunakan domain @student.undiksha.ac.id');
+                    Swal.showValidationMessage('Email mu salah cuy ! udah mahasiswa masa gatau email mahasiswa undiksha pribadi');
                     return false;
                 }
     
@@ -480,15 +495,19 @@ function perbaruiTampilanKandidat(kandidat, database) {
                                     <div class="flex justify-center">
                                         <img src="/img/logo.webp" style="width: 60px; height: 60px;" alt="Loading" class="mb-3 h-auto">
                                     </div>
-                                    <h2 class="font-bold text-red-500">Pengiriman Ditolak! PDF Anda Terlalu Besar</h2>
+                                    <h2 class="font-bold text-red-500">Sending Vote Denied !</h2>
+                                    <p class="text-lg text-red-500">Ukuran PDF Terlalu Besar !</p>
                                     <p class="text-lg">Ukuran PDF Anda: <strong>${originalSize} KB</strong></p>
-                                    <p class="text-lg">Batas maksimal untuk upload KHS adalah: <strong>60 KB</strong></p>
-                                    <p class="text-lg mb-3">Silakan kompres PDF Anda: </p>
-                                    <a href="https://www.ilovepdf.com/compress_pdf" target="_blank" class="text-white text-sm font-semibold rounded-lg shadow-lg bg-green-500 px-2 py-2">Kompres PDF</a>
+                                    <p class="text-lg">Batas maksimal untuk upload KHS/KRS adalah: <strong>60 KB</strong></p>
+                                    <p class="text-lg mb-3">Silakan kompres PDF Anda Terimakasih.</p>
                                 `,
-                                confirmButtonText: 'Tutup',
-                                confirmButtonColor: '#3b82f6',
+                                confirmButtonText: 'Kompress PDF',
+                                confirmButtonColor: '#16a34a',
                                 background: '#f9fafb',
+                                preConfirm: () => {
+                                  // Redirect user to the URL when "OK" is clicked
+                                  window.location.href = 'https://www.ilovepdf.com/compress_pdf';
+                              },
                                 customClass: {
                                     title: 'text-xl font-semibold text-red-600',
                                     content: 'text-sm text-gray-700'
