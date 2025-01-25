@@ -145,3 +145,7 @@ function initLazyLoading() {
 document.addEventListener('DOMContentLoaded', () => {
   initializeFirebase().catch(console.error);
 });
+console.log(
+  "%cHello, I'm Yuichiro, a Web Developer specializing in creating E-voting websites. Nice to meet you!\nI'm currently a third-year student in the Japanese Language Education program. People call me silent Troubleshooter",
+  "color: #28A745; font-size: 14px;" // Gaya untuk semua teks
+);

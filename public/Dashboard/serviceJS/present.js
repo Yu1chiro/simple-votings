@@ -149,7 +149,7 @@ function updateCountdown(timeData) {
     if (!countdownElement && headerElement) {
         countdownElement = document.createElement('div');
         countdownElement.id = 'countdown';
-        countdownElement.className = 'text-center bg-gradient-to-r from-[#2B3784] to-[#4361EE] text-lg text-[#fafafafa] font-bold py-3 rounded-lg mb-5';
+        countdownElement.className = 'text-center bg-gradient-to-r from-[#2B3784] to-[#4361EE] text-lg text-[#fafafafa] font-bold py-3 px-4 rounded-lg mb-5';
         headerElement.after(countdownElement);
     }
 

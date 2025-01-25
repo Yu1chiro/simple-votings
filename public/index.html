@@ -14,6 +14,7 @@
   <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css"  rel="stylesheet" />
   <script defer src="/InterfaceJS/lazy.js"></script>
   <script defer type="module" src="/InterfaceJS/main.js"></script>
+  <script defer  src="/InterfaceJS/reporting.js"></script>
   <script async src="https://cdn.jsdelivr.net/npm/sweetalert2"></script>
 
 </head>
@@ -31,10 +32,16 @@
       <div class="hidden w-full md:block md:w-auto" id="navbar-default">
         <ul class="font-medium flex flex-col p-4 md:p-0 mt-4 border-none rounded-lg bg-transparent md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0">
           <li>
-            <a href="#faq" class="block py-2 px-3 flex items-center text-semibold  text-[#FAFAFA] rounded  md:hover:bg-transparent md:border-0 md:hover:text-yellow-500 md:p-0">
-                <img data-src="/img/faq.png" width="30px" height="auto" class="me-3 lazy" alt="">
+            <a href="#faq" class="block py-2 px-3 flex items-center font-semibold text-md  text-[#FAFAFA] rounded  md:hover:bg-transparent md:border-0 md:hover:text-yellow-500 md:p-0">
+                <!-- <img data-src="/img/faq.png" width="30px" height="auto" class="me-3 lazy" alt=""> -->
                 FAQ
             </a>
+          </li>
+          <li>
+            <button id="laporkan" type="button" class="hover:bg-gradient-to-br flex items-center from-red-600 to-red-500 block text-md text-[#FAFAFA] font-semibold rounded-lg hover:bg-gradient-to-bl hover:py-1 hover:px-1">
+                <img data-src="/img/faq.png" width="20px" height="auto" class="me-3 lazy" alt="">
+              Laporkan Masalah
+            </button>
           </li>
          
         </ul>
@@ -63,8 +70,6 @@
   </div>
  <div class="absolute inset-0 bg-black opacity-50"></div>
 </section>
-
-  
 
   <!-- Why E-Voting Section -->
   <section id="features" class="py-16 text-[#FAFAFA]">
@@ -313,17 +318,124 @@
       </div>
       
    </section>
+  <!-- Report -->
+    <!-- Modal -->
+    <div id="modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden overflow-y-auto py-10 sm:py-16 md:py-20">
+      <div class="relative w-full max-w-2xl mx-auto px-4 sm:px-6 md:px-8">
+          <div class="bg-gradient-to-r from-cyan-600 to-blue-700 animate-card rounded-lg shadow-xl overflow-hidden">
+            <form id="laporanForm" class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 p-4 sm:p-6 md:p-8 space-y-4 sm:space-y-0">
+
+                <!-- Kolom Kiri: Identitas -->
+                <div class="space-y-4">
+                    <h2 class="text-xl font-semibold inline-block bg-gradient-to-r from-red-500 to-red-700 text-white py-1.5 px-2.5 rounded-lg mb-4">Form Laporan</h2>
+                    
+                    <div>
+                        <label for="nama" class="block text-lg font-semibold text-white mb-1">Nama Lengkap</label>
+                        <input type="text" id="nama" name="nama" required 
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
       
+                    <div>
+                        <label for="nim" class="block text-lg font-semibold text-white mb-1">NIM</label>
+                        <input type="number" id="nim" name="nim" required 
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+      
+                    <div>
+                        <label for="semester" class="block text-lg font-semibold text-white mb-1">Semester</label>
+                        <select id="semester" name="semester" required 
+                            class="w-full px-3 py-2 cursor-pointer border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <option value="">Pilih Semester</option>
+                            <option value="1">Semester 1</option>
+                            <option value="3">Semester 3</option>
+                            <option value="5">Semester 5</option>
+                            <option value="7">Semester 7</option>
+                        </select>
+                    </div>
+                </div>
+      
+                <!-- Kolom Kanan: Detail Laporan -->
+                <div class="space-y-4">
+                    <div>
+                        <label for="prodi" class="block text-lg font-semibold text-white mb-1">Program Studi</label>
+                        <select id="prodi" name="prodi" required 
+                            class="w-full px-3 cursor-pointer py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <option value="">Pilih Prodi</option>
+                            <option value="Pendidikan Bahasa Inggris">Pendidikan Bahasa Inggris</option>
+                            <option value="Pendidikan Bahasa Jepang">Pendidikan Bahasa Jepang</option>
+                            <option value="BIKSPRO">BIKSPRO</option>
+                        </select>
+                    </div>
+      
+                    <div>
+                        <label for="narahubung" class="block text-lg font-semibold text-white mb-1">Narahubung</label>
+                        <select id="narahubung" name="narahubung" required 
+                            class="w-full px-3 cursor-pointer py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <option value="">Pilih Narahubung</option>
+                            <option value="6281805670770">Savitri - Semester 1</option>
+                            <option value="6285738452533">Devi - Semester 3</option>
+                            <option value="6287887316009">Febby - Semester 5</option>
+                            <option value="62895395029728">Yunita - Semester 7</option>
+                        </select>
+                    </div>
+      
+                    <div>
+                        <label for="laporan" class="block text-lg font-semibold text-white mb-1">Masalah yang di alami </label>
+                        <textarea id="laporan" name="laporan" rows="4" required 
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                    </div>
+                </div>
+      
+                <!-- Footer Tombol -->
+                <div class="col-span-1 sm:col-span-2 flex justify-end space-x-3">
+                    <button type="button" id="batalkan" 
+                        class="px-4 py-2 bg-gradient-to-r from-yellow-500 to-orange-700 hover:bg-gradient-to-bl text-white  rounded-md  transition duration-300">
+                        Batalkan
+                    </button>
+                    <button type="submit" 
+                        class="px-4 py-2 bg-gradient-to-r from-red-500 to-red-700 hover:bg-gradient-to-bl text-white rounded-md transition duration-300">
+                        Kirim Laporan
+                    </button>
+                </div>
+          </form>
+          </div>
+      </div>
+  </div>
+<!-- Modal Responsif dengan Margin dan Grid -->
+
+
   <!-- Footer -->
   <footer class="bg-[#0A3981] text-[#FAFAFA] py-6">
     <div class="container mx-auto px-6 text-center">
-        <p class="text-lg">
-          &copy; 2024 HMJ Bahasa Asing ||  Dev by 
-          <a href="https://instagram.com/hinaata_03" class="hover:text-xl hover:font-bold hover:text-yellow-500"><img data-src="/img/dev.webp" alt="Dev by Hera" class="w-10 h-10 lazy rounded-full inline-block ml-2"> 日向</a>
-        </p>
-      </div>
-      
+      <p class="text-md">
+        &copy; 2024 HMJ Bahasa Asing || Dev by
+        <a href="https://instagram.com/hinaata_03" class="hover:text-xl hover:font-bold hover:text-yellow-500 relative">
+          <img 
+            data-src="/img/dev.webp" 
+            alt="Dev by Hera" 
+            class="w-10 h-10 lazy rounded-full inline-block ml-2" 
+            id="developer-img">
+          <span class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 bg-gray-800 text-white text-sm px-3 py-1 rounded-md shadow-lg" id="tooltip"></span>
+        </a>
+      </p>
+    </div>
   </footer>
+  <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+
+  <script defer>
+    document.addEventListener('DOMContentLoaded', () => {
+      new Typed('#tooltip', {
+        strings: ['Iam Yuichiro', 'Web Developer', '日本語教育プログラム', 'Thankyou for your voting !'],
+        typeSpeed: 50,
+        backSpeed: 30,
+        backDelay: 2000,
+        loop: true,
+        showCursor: false
+      });
+    });
+  </script>
+  
+  
   <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
 </body>
 </html>
