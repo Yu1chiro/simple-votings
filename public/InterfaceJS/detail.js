@@ -365,7 +365,8 @@ function perbaruiTampilanKandidat(kandidat, database) {
               return true;
           } catch (error) {
               console.error('Error checking database size:', error);
-              throw new Error('Gagal memeriksa kapasitas database');
+              // Show public nonactive vote
+              throw new Error('Mohon Maaf Voting Telah Ditutup');
           }
       }
       
@@ -539,7 +540,7 @@ function perbaruiTampilanKandidat(kandidat, database) {
                     reader.readAsDataURL(finalFile);
                 });
             } catch (error) {
-                Swal.showValidationMessage('Terjadi kesalahan: ' + error.message);
+                Swal.showValidationMessage('Info: ' + error.message);
                 return false;
             }
         }
