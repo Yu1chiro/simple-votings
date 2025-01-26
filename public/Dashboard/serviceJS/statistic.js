@@ -100,7 +100,7 @@ import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.22.2/firebas
             totalVotesDiv.className = 'bg-blue-50 p-4 rounded-lg';
             totalVotesDiv.innerHTML = `
                 <p class="text-blue-800 font-medium">Total Suara</p>
-                <p class="text-2xl font-bold text-blue-900">${totalVotes}</p>
+                <p class="text-lg font-bold text-blue-900">${totalVotes}</p>
             `;
             statsContainer.appendChild(totalVotesDiv);
 
@@ -111,7 +111,7 @@ import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.22.2/firebas
                 div.className = 'bg-gray-50 p-4 rounded-lg';
                 div.innerHTML = `
                     <p class="text-gray-800 font-medium">${candidate}</p>
-                    <p class="text-2xl font-bold text-gray-900">${votes} <span class="text-lg font-normal text-gray-600">(${percentage}%)</span></p>
+                    <p class="text-lg font-bold text-gray-900">${votes} <span class="text-lg font-normal text-gray-600">(${percentage}%)</span></p>
                 `;
                 statsContainer.appendChild(div);
             });

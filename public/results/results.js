@@ -51,7 +51,7 @@ function updateCandidateCard(candidate) {
     <div class="h-62 flex justify-center rounded mb-4">
       <img src="${candidate.thumbnail}" class="rounded h-62" alt="${candidate.name}">
     </div>
-    <h3 class="text-2xl font-custom text-center font-bold mb-2 text-transparent bg-clip-text bg-gradient-to-r from-[hsl(42,85%,65%)] to-[hsl(42,80%,85%)]">
+    <h3 class="text-lg font-custom text-center font-bold mb-2 text-transparent bg-clip-text bg-gradient-to-r from-[hsl(42,85%,65%)] to-[hsl(42,80%,85%)]">
       ${candidate.name}
     </h3>
   `;
