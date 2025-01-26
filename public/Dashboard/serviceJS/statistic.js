@@ -16,7 +16,7 @@ import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.22.2/firebas
                 console.error('Firebase initialization failed:', error);
             }
         }
-
+  
         function listenToVotes(database) {
             const votesRef = ref(database, 'votes');
             onValue(votesRef, (snapshot) => {
